@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <% include ../fragments/head %>
+</head>
+
+<body>
+
+<% include ../fragments/nav %>
+
+<!-- Page Content -->
+<div class="container">
+
+  <!-- Jumbotron Header -->
+  <header class="jumbotron my-4">
+    <div class="row">
+      <div class="col-md-5">
+        <h4 class="display-5">PO: <%= PO.PO %></h4>
+        <p class="lead">
+          <h6 class="display-5">Order Date: <%= dateformat(new Date(PO.PODate), "d mmmm yyyy, h:MM") %></h6>
+          <% if( !PO.Shipment.shipment ) { %>
+            <a class="btn btn-secondary" href="/tracker/generateShipmentFromPO/<%= PO.PO %>">Generate Shipment</a>
+          <% } else { %>
+            <h6 class="display-5">Shipment: <a href="/tracker/shipmentDetail/<%= PO.Shipment.shipment %>"><%= PO.Shipment.shipment %></a></h6>
+          <% } %>
+
+      </div>
+      <div class="col-md-7">
+        <h6 class="display-7">Buyer: <%= PO.BuyerID %></h6>
+        <h6 class="display-7">Supplier: <%= PO.SupplierID %></h6>
+        <h6 class="display-7">Delivery Date: <%= dateformat(new Date(PO.DeliveryDate), "d mmmm yyyy") %></h6>
+        <h6 class="display-7">Delivery Location: <%= PO.DeliveryLocation %></h6>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page Features -->
+  <div class="row text-center">
+
+    <% if( PO.Shipment.shipment ) { %>
+      <% for( var x=0; x< PO.Shipment.products.length; x++ ) { %>
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card">
+          <div class="card-header">
+            <h4>Model: <%= PO.Shipment.products[x].model %></h4>
+          </div>
+          <div class="card-body">
+            <img class="qr" src="/qr/<%= PO.Shipment.products[x].sn %>"/>
+          </div>
+          <div class="card-footer">
+            <h6 class="card-title">SN: <%= PO.Shipment.products[x].sn %></h6>
+          </div>
+        </div>
+      </div>
+      <% } %>
+    <% } else { %>
+      <% for( var x=0; x< PO.Details.length; x++ ) { %>
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card">
+          <div class="card-header">
+            <h4>Model: <%= PO.Details[x].model %></h4>
+          </div>
+          <div class="card-body">
+            <h6 class="card-title">Quantity: <%= PO.Details[x].quantity %></h6>
+          </div>
+          <div class="card-footer">
+            <h6 class="card-title">&nbsp;</h6>
+          </div>
+        </div>
+      </div>
+      <% } %>
+    <% } %>
+
+
+  </div>
+  <!-- /.row -->
+
+</div>
+<!-- /.container -->
+
+<% include ../fragments/footer %>
+
+<!-- Bootstrap core JavaScript -->
+<script src="/resources/jquery/jquery.min.js"></script>
+<script src="/resources/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<script type="text/javascript">
+</script>
+
+</body>
+
+</html>

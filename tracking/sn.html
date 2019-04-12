@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="/resources/js/jquery.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+* {box-sizing: border-box;}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.header {
+  overflow: hidden;
+  background-color: #027BC7;
+  border-bottom: 3px solid black;
+}
+
+.header #title {
+  float: left;
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.header #title2 a  {
+  float: right;
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 18px 16px 0 16px;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.header .search-container {
+  float: right;
+}
+
+.header input[type=text] {
+  padding: 6px;
+  margin-top: 8px;
+  font-size: 17px;
+  width: 140px;
+  border: none;
+}
+
+.header .search-container button {
+  float: right;
+  padding: 6px 10px;
+  margin-top: 8px;
+  margin-right: 16px;
+  background: #ddd;
+  font-size: 17px;
+  border: none;
+  cursor: pointer;
+}
+
+.header .search-container button:hover {
+  background: #ccc;
+}
+
+@media screen and (max-width: 400px) {
+  .header .search-container {
+    float: none;
+  }
+  .header a, .header input[type=text], .header .search-container button {
+    float: none;
+    display: block;
+    text-align: left;
+    width: 100%;
+    margin: 0;
+    padding: 14px;
+  }
+  .header input[type=text] {
+    border: 1px solid #ccc;
+  }
+}
+#label {
+  width: 300px;
+  border:1px solid black;
+  padding: 10px;
+  text-align:center
+}
+#details {
+  padding: 20px;
+}
+
+.btn {
+  border: 1px solid #42ABF7;
+  background: #027BC7;
+  color: white;
+  font: bold 16px 'Trebuchet MS';
+  padding: 6px 10px;
+  margin: 5px;
+  cursor: pointer;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+}
+
+/* Create two unequal columns that floats next to each other */
+.column {
+    float: left;
+    padding: 10px;
+    margin: 0 10px;
+}
+
+.left {
+  width: 32%;
+}
+
+.right {
+  width: 62%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+
+a:visited, a:link, a:active {
+  text-decoration: none;
+  color: #000;
+}
+a:hover {
+  color: #999;
+  text-decoration: underline;
+}
+
+#itemContainer {
+  display: grid;
+  /* Display as a Grid */
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  /* repeat = as many times as you can fit */
+  /* auto-fit = fit as many items on the line as possible, go bigger if you need to */
+  /*minmax = (min size, max size) = the minimum size the column should be is 200px, but if there's space then give them all 1fr of that width. */
+  grid-gap: 10px;
+}
+
+#itemContainer div {
+  max-width: 300px;
+  text-align: center;
+  border-radius: 5px;
+  border: 1px solid black;
+  padding: 5px;
+  background-color: #efefef;
+  color: #333;
+
+}
+
+h4, p {
+  margin: 10px;
+}
+
+
+</style>
+</head>
+<body>
+
+<div class="header">
+  <span id="title">Blockchain Product Viewer</span>
+  <span id="title2"><a href="" onClick="gotoTxnView();return false;">view transactions</a></span>
+  <div class="search-container">
+    <form id="searchForm" action="#">
+      <input type="text" placeholder="Enter SN..." id="search" name="search">
+      <button type="submit"><i class="fa fa-search"></i></button>
+    </form>
+  </div>
+</div>
+
+<div id="message"></div>
+<div style="padding:16px">
+  <div id="label" class="column left">
+    <img src="/imgs/oracle.jpg" style="width:250px"/>
+    <h2>SN: <span id="sn">....</span></h2>
+    <img id="snQR" src=""/>
+    <div id="labelItems">
+      <p>Model: <span id="model">...</span></p>
+      <p>Custodian: <a id="custodianLink" href=""><span id="custodian">...</span></a></p>
+      <p>Status: <span id="stage">...</span></p>
+      <p>Associated PO: <a id="assocpoLink" href=""><span id="assocpo">...</span></a></p>
+      <p>Last Shipment: <a id="shipLink" href=""><span id="ship">...</span></a></p>
+      <div>
+        <input class="btn" type="button" value="Inspected" id="btnInspected" onClick="onInspected()"/>
+        <input class="btn" type="button" value="Defective" id="btnDefective" onClick="onDefective()"/>
+      </div>
+    </div>
+  </div>
+  <div id="details" class="column right">
+    <div id="itemHeader">
+    </div>
+    <div id="itemContainer">
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+function gotoTxnView() {
+  var url = "transactionViewer.html?search="+$( "#search" ).val();
+  location.href = url;
+}
+function onInspected() {
+  var sn = document.getElementById("sn").textContent;
+  var url = "/sn/"+sn+"/event";
+  $.post( url, { "message": "Product passed random inspection" }, function( data ) {
+    //alert("Event:"+JSON.stringify(data));
+    $( "#message" ).text("Event thrown.");
+  })
+  .fail(function() {
+    $( "#message" ).text( "Error throwing event." );
+  });
+}
+function onDefective() {
+  var sn = document.getElementById("sn").textContent;
+  var url = "/sn/"+sn+"/alert";
+  $.post( url, { "message": "Product tagged as possibly defective." }, function( data ) {
+    //alert("Event:"+JSON.stringify(data));
+    $( "#message" ).text("Event thrown.");
+  })
+  .fail(function() {
+    $( "#message" ).text( "Error throwing event." );
+  });
+}
+$( "#searchForm" ).submit(function( event ) {
+  document.getElementById("message").textContent="";
+  let key = $( "#search" ).val();
+  if( key && key.length>0 ) {
+    $.getJSON( "/sn/"+key, function( data ) {
+      if( data.SN ) {
+        let qr = "/qr/"+key;
+        $("#snQR").attr("src",qr);
+        $("#sn").html(data.SN);
+        $("#model").html(data.Model);
+        $("#custodian").html(data.Custodian);
+        $("#custodianLink").attr("href","/tracking/stockByShipment.html?search="+data.Custodian);
+        $("#stage").html(data.Stage);
+        $("#assocpo").html(data.PO);
+        $("#assocpoLink").attr("href","/tracking/po.html?search="+data.PO);
+        $("#ship").html(data.Shipment);
+        $("#shipLink").attr("href","/tracking/shipment.html?search="+data.Shipment);
+
+        $( "#itemContainer" ).empty();
+        if( data.SupplierID != "" ) {
+          var inner = "<div>";
+          inner += "<h4>SUPPLIER</h4>";
+          inner += "<p>"+data.SupplierID+"</p>";
+          inner += "<p>"+data.Supplier_Shipped_Date+"</p>";
+          inner += "</div>";
+          $("#itemContainer").append(inner);
+        }
+        if( data.BuyerID != "" ) {
+          var inner = "<div>";
+          inner += "<h4>BUYER</h4>";
+          inner += "<p>"+data.BuyerID+"</p>";
+          inner += "<p>"+data.Buyer_Received_Date+"</p>";
+          inner += "</div>";
+          $("#itemContainer").append(inner);
+        }
+        if( data.DistributorID != "" ) {
+          var inner = "<div>";
+          inner += "<h4>DISTRIBUTOR</h4>";
+          inner += "<p>"+data.DistributorID+"</p>";
+          inner += "<p>"+data.Dist_Received_Date+"</p>";
+          inner += "</div>";
+          $("#itemContainer").append(inner);
+        }
+        if( data.InstallerID != "" ) {
+          var inner = "<div>";
+          inner += "<h4>INSTALLER</h4>";
+          inner += "<p>"+data.InstallerID+"</p>";
+          inner += "<p>"+data.Inst_Received_Date+"</p>";
+          inner += "</div>";
+          $("#itemContainer").append(inner);
+        }
+        if( data.CustomerID != "" ) {
+          var inner = "<div>";
+          inner += "<h4>CUSTOMER</h4>";
+          inner += "<p>"+data.CustomerID+"</p>";
+          inner += "<p>"+data.Cust_Installed_Date+"</p>";
+          inner += "</div>";
+          $("#itemContainer").append(inner);
+        }
+
+        $( "#label" ).show();
+      } else {
+        $( "#message" ).text( "SN "+key+" not found." );
+        $( "#label" ).hide();
+      }
+    })
+    .fail(function() {
+      $( "#message" ).text( "Error in processing request." );
+      $( "#label" ).hide();
+    });
+
+  } else {
+    $( "#message" ).text( "Error in processing request." );
+    $( "#label" ).hide();
+  }
+  event.preventDefault();
+});
+$( "#label" ).hide();
+var urlParams = new URLSearchParams(window.location.search);
+var sid = urlParams.get('search');
+if( sid ) {
+  $("#search").val(sid);
+  $("#searchForm").trigger("submit");
+}
+</script>
+
+</body>
+</html>

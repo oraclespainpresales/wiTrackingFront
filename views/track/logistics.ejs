@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <% include ../fragments/head %>
+</head>
+
+<body>
+
+<% include ../fragments/nav %>
+
+<!-- Page Content -->
+<div class="container">
+
+  <!-- Jumbotron Header -->
+  <header class="jumbotron my-4">
+    <div class="row">
+      <div class="col-md-5">
+        <h1 class="display-5" id="username"><%= user.fullname %></h1>
+        <p class="display-12" id="role"><%= user.role %></p>
+        <p class="lead">
+          <input class="btn btn-danger" type="button" value="Water" onClick="transportAlert('water')"/>
+          <input class="btn btn-danger" type="button" value="Temp" onClick="transportAlert('temp')"/>
+          <input class="btn btn-warning" type="button" value="Mech." onClick="transportEvent('mech')"/>
+          <input class="btn btn-warning" type="button" value="Door" onClick="transportEvent('door')"/>
+        </p>
+      </div>
+      <div class="col-md-7">
+      </div>
+    </div>
+  </header>
+
+  <div id="message">&nbsp;</div>
+
+  <!-- Page Features -->
+  <% var shipments = Object.keys(inventory.shipments); %>
+  <% var orphans = inventory.shipments[""]; %>
+  <% var numOrphans = 0; if( orphans ) { numOrphans = orphans.length; }%>
+  <% var numShipments = 0; if( shipments ) { numShipments = (numOrphans>0) ? shipments.length-1 : shipments.length; }%>
+  <div class="row">
+    <div class="col-md-12">
+      <h5 class="card-box-title"><%= numShipments %> shipments on Truck <%= user.truckid %></h5>
+      <h6 class="card-box-detail"></h6>
+    </div>
+  </div>
+  <div class="row text-center">
+    <% for( var i=0; i < shipments.length; i++ ) { %>
+      <% if( shipments[i] == "" ) { continue; } %>
+      <% products = inventory.shipments[shipments[i]]; %>
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="card-title"><%= shipments[i] %></h5>
+            <h6 class="card-detail"><%= products[0].DestinationID %> (<%= products[0].DestinationLabel %>)</h6>
+          </div>
+          <div class="card-body">
+            <img class="qr" src="/qr/<%= products[0].Shipment %>"/>
+          </div>
+          <div class="card-footer">
+            <div class="card-box-title">
+              <input class="btn btn-warning" type="button" value="Customs" onClick="shipmentEvent('<%= shipments[i] %>', 'customs')"/>
+              <input class="btn btn-warning" type="button" value="Inspect" onClick="shipmentEvent('<%= shipments[i] %>', 'inspect')"/>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    <% } %>
+  </div>
+  <!-- /.row -->
+
+</div>
+<!-- /.container -->
+
+<% include ../fragments/footer %>
+
+<!-- Bootstrap core JavaScript -->
+<script src="/resources/jquery/jquery.min.js"></script>
+<script src="/resources/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<script type="text/javascript">
+function transportAlert(type) {
+  var msg = "Generic Transport Alert";
+  switch(type) {
+    case "water":
+      msg = "Humidity registered in TransportID <%= user.truckid %>";
+      break;
+    case "temp":
+      msg = "Temperature in TransportID '<%= user.truckid %>' is outside contracted range.";
+      break;
+    default:
+  }
+  $.post( "/transport/<%= user.truckid %>/alert", function( data ) {
+    $( "#message" ).text("Transport alert sent.");
+  })
+  .fail(function() {
+    $( "#message" ).text( "Transport alert not sent" );
+  });
+}
+function transportEvent(type) {
+  var msg = "Generic Transport Event";
+  switch(type) {
+    case "mech":
+      msg = "Mechanical problem registered in TransportID <%= user.truckid %>";
+      break;
+    case "door":
+      msg = "Registered door open in TransportID <%= user.truckid %>";
+      break;
+    default:
+  }
+  $.post( "/transport/<%= user.truckid %>/event", function( data ) {
+    $( "#message" ).text("Transport event sent.");
+  })
+  .fail(function() {
+    $( "#message" ).text( "Transport event not sent" );
+  });
+}
+function shipmentEvent(shipment, type) {
+  var msg = "Generic Shipment Event";
+  switch(type) {
+    case "customs":
+      msg = "Shipment "+shipment+" in customs.";
+      break;
+    case "inspect":
+      msg = "Shipment "+shipment+" inspected.";
+      break;
+    default:
+  }
+  $.post( "/shipment/<%= user.truckid %>/event", function( data ) {
+    $( "#message" ).text("Shipment event sent.");
+  })
+  .fail(function() {
+    $( "#message" ).text( "Shipment event not sent" );
+  });
+}
+</script>
+
+</body>
+
+</html>

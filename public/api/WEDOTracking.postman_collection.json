@@ -1,0 +1,1374 @@
+{
+	"info": {
+		"_postman_id": "685639b2-5c84-47d5-9d0c-ece0ff831300",
+		"name": "WEDOTracking",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Product - Create",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"channel\": \"wedobuyerorderer\",\r\n   \"chaincode\": \"tracking\",\r\n   \"chaincodeVer\": \"v4.03\",\r\n   \"method\": \"createProduct\",\r\n   \"args\": [\r\n   \t\t\"abc0006\",\r\n   \t\t\"MT5012\",\r\n   \t\t\"demo.supplier\",\r\n   \t\t\"<<NOW>>\"\r\n   \t]\r\n}"
+				},
+				"url": {
+					"raw": "https://wedotracking-gse00011668.apaas.us2.oraclecloud.com/proxy/invocation",
+					"protocol": "https",
+					"host": [
+						"wedotracking-gse00011668",
+						"apaas",
+						"us2",
+						"oraclecloud",
+						"com"
+					],
+					"path": [
+						"proxy",
+						"invocation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product - Take Custody (BC)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"channel\": \"wedobuyerorderer\",\r\n   \"chaincode\": \"tracking\",\r\n   \"chaincodeVer\": \"v4.1\",\r\n   \"method\": \"takeCustodyOfProduct\",\r\n   \"args\": [\r\n   \t\t\"abc0003\",\r\n   \t\t\"ultralogistics\",\r\n   \t\t\"12222\",\r\n   \t\t\"LOGISTICS\"\r\n   \t]\r\n}"
+				},
+				"url": {
+					"raw": "http://129.213.60.1:3100/bcsgw/rest/v1/transaction/invocation",
+					"protocol": "http",
+					"host": [
+						"129",
+						"213",
+						"60",
+						"1"
+					],
+					"port": "3100",
+					"path": [
+						"bcsgw",
+						"rest",
+						"v1",
+						"transaction",
+						"invocation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product - Install (BC)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"channel\": \"wedobuyerorderer\",\r\n   \"chaincode\": \"tracking\",\r\n   \"chaincodeVer\": \"v3.22\",\r\n   \"method\": \"installProduct\",\r\n   \"args\": [\r\n   \t\t\"Y10001\",\r\n   \t\t\"demo.customer1\"\r\n   \t]\r\n}"
+				},
+				"url": {
+					"raw": "http://129.213.60.1:3100/bcsgw/rest/v1/transaction/invocation",
+					"protocol": "http",
+					"host": [
+						"129",
+						"213",
+						"60",
+						"1"
+					],
+					"port": "3100",
+					"path": [
+						"bcsgw",
+						"rest",
+						"v1",
+						"transaction",
+						"invocation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product - Delete (BC)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"channel\": \"wedobuyerorderer\",\r\n   \"chaincode\": \"tracking\",\r\n   \"chaincodeVer\": \"v4.1\",\r\n   \"method\": \"deleteProduct\",\r\n   \"args\": [\r\n   \t\t\"Y10001\"\r\n   \t]\r\n}"
+				},
+				"url": {
+					"raw": "http://129.213.60.1:3100/bcsgw/rest/v1/transaction/invocation",
+					"protocol": "http",
+					"host": [
+						"129",
+						"213",
+						"60",
+						"1"
+					],
+					"port": "3100",
+					"path": [
+						"bcsgw",
+						"rest",
+						"v1",
+						"transaction",
+						"invocation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product - Query (BC)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"channel\": \"wedobuyerorderer\",\r\n   \"chaincode\": \"tracking\",\r\n   \"chaincodeVer\": \"v4.1\",\r\n   \"method\": \"queryProduct\",\r\n   \"args\": [\r\n   \t\t\"abc0004\"\r\n   \t]\r\n}\r\n"
+				},
+				"url": {
+					"raw": "http://129.213.60.1:3100/bcsgw/rest/v1/transaction/query",
+					"protocol": "http",
+					"host": [
+						"129",
+						"213",
+						"60",
+						"1"
+					],
+					"port": "3100",
+					"path": [
+						"bcsgw",
+						"rest",
+						"v1",
+						"transaction",
+						"query"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product - Query By Custodian (BC)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"channel\": \"wedobuyerorderer\",\r\n   \"chaincode\": \"tracking\",\r\n   \"chaincodeVer\": \"v3.22\",\r\n   \"method\": \"queryProductsByCustodian\",\r\n   \"args\": [\r\n   \t\t\"demo.supplier\"\r\n   \t]\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://wedotracking-gse00011668.apaas.us2.oraclecloud.com/proxy/query",
+					"protocol": "https",
+					"host": [
+						"wedotracking-gse00011668",
+						"apaas",
+						"us2",
+						"oraclecloud",
+						"com"
+					],
+					"path": [
+						"proxy",
+						"query"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product - Query By PO (BC)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"channel\": \"wedobuyerorderer\",\r\n   \"chaincode\": \"tracking\",\r\n   \"chaincodeVer\": \"v3.22\",\r\n   \"method\": \"queryProductsByPO\",\r\n   \"args\": [\r\n   \t\t\"10025\"\r\n   \t]\r\n}\r\n"
+				},
+				"url": {
+					"raw": "http://129.213.60.1:3100/bcsgw/rest/v1/transaction/query",
+					"protocol": "http",
+					"host": [
+						"129",
+						"213",
+						"60",
+						"1"
+					],
+					"port": "3100",
+					"path": [
+						"bcsgw",
+						"rest",
+						"v1",
+						"transaction",
+						"query"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Product - History (BC)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"channel\": \"wedobuyerorderer\",\r\n   \"chaincode\": \"tracking\",\r\n   \"chaincodeVer\": \"v3.22\",\r\n   \"method\": \"getHistoryForProduct\",\r\n   \"args\": [\r\n   \t\t\"abc0004\"\r\n   \t]\r\n}\r\n"
+				},
+				"url": {
+					"raw": "http://129.213.60.1:3100/bcsgw/rest/v1/transaction/query",
+					"protocol": "http",
+					"host": [
+						"129",
+						"213",
+						"60",
+						"1"
+					],
+					"port": "3100",
+					"path": [
+						"bcsgw",
+						"rest",
+						"v1",
+						"transaction",
+						"query"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "INFO",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"channel\": \"wedobuyerorderer\",\r\n   \"chaincode\": \"tracking\",\r\n   \"chaincodeVer\": \"v3.22\",\r\n   \"method\": \"getContractInfo\",\r\n   \"args\": [ ]\r\n}\r\n"
+				},
+				"url": {
+					"raw": "http://129.213.60.1:3100/bcsgw/rest/v1/transaction/query",
+					"protocol": "http",
+					"host": [
+						"129",
+						"213",
+						"60",
+						"1"
+					],
+					"port": "3100",
+					"path": [
+						"bcsgw",
+						"rest",
+						"v1",
+						"transaction",
+						"query"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Generate UUID",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"channel\": \"wedobuyerorderer\",\r\n   \"chaincode\": \"tracking\",\r\n   \"chaincodeVer\": \"v2.4\",\r\n   \"method\": \"queryPO\",\r\n   \"args\": [\r\n   \t\t\"x00003\"\r\n   \t]\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://wedotracking-gse00011668.apaas.us2.oraclecloud.com/proxy/generateUUID",
+					"protocol": "https",
+					"host": [
+						"wedotracking-gse00011668",
+						"apaas",
+						"us2",
+						"oraclecloud",
+						"com"
+					],
+					"path": [
+						"proxy",
+						"generateUUID"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Generate Timestamp",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"channel\": \"wedobuyerorderer\",\r\n   \"chaincode\": \"tracking\",\r\n   \"chaincodeVer\": \"v2.4\",\r\n   \"method\": \"queryPO\",\r\n   \"args\": [\r\n   \t\t\"x00003\"\r\n   \t]\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://wedotracking-gse00011668.apaas.us2.oraclecloud.com/proxy/generateTimestamp",
+					"protocol": "https",
+					"host": [
+						"wedotracking-gse00011668",
+						"apaas",
+						"us2",
+						"oraclecloud",
+						"com"
+					],
+					"path": [
+						"proxy",
+						"generateTimestamp"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "QR Printer",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"ImageURL\"  : \"https://wedo-gse00013955.uscom-east-1.oraclecloud.com/qr/11111\",\r\n  \"dataFormat\" : \".png\",\r\n  \"ProductId\" : \"11111\"\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://wedotracking-gse00011668.apaas.us2.oraclecloud.com/qr/NA4JHHJJ3GR/printLabel",
+					"protocol": "https",
+					"host": [
+						"wedotracking-gse00011668",
+						"apaas",
+						"us2",
+						"oraclecloud",
+						"com"
+					],
+					"path": [
+						"qr",
+						"NA4JHHJJ3GR",
+						"printLabel"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "QR Printer (SOA)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"ImageURL\"  : \"https://wedotracking-gse00011668.apaas.us2.oraclecloud.com/qr/NA4JHHJJ3GR\",\r\n  \"dataFormat\" : \".png\",\r\n  \"ProductId\" : \"NA4JHHJJ3GR\"\r\n}\r\n"
+				},
+				"url": {
+					"raw": "http://soa.digitalpracticespain.com/wedoindustry/printer/print/MADRID",
+					"protocol": "http",
+					"host": [
+						"soa",
+						"digitalpracticespain",
+						"com"
+					],
+					"path": [
+						"wedoindustry",
+						"printer",
+						"print",
+						"MADRID"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Shipment - Create (BC)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"channel\": \"wedobuyerorderer\",\r\n   \"chaincode\": \"tracking\",\r\n   \"chaincodeVer\": \"v3.22\",\r\n   \"method\": \"createShipment\",\r\n   \"args\": [\r\n   \t\t\"ABCD002\",\r\n   \t\t\"\",\r\n   \t\t\"demo.buyer\",\r\n   \t\t\"Las Rozas, Spain\",\r\n   \t\t\"abc0003~abc0004\"\r\n   \t]\r\n}"
+				},
+				"url": {
+					"raw": "http://129.213.60.1:3100/bcsgw/rest/v1/transaction/invocation",
+					"protocol": "http",
+					"host": [
+						"129",
+						"213",
+						"60",
+						"1"
+					],
+					"port": "3100",
+					"path": [
+						"bcsgw",
+						"rest",
+						"v1",
+						"transaction",
+						"invocation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Shipment - Generate From PO",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"channel\": \"wedobuyerorderer\",\r\n   \"chaincode\": \"tracking\",\r\n   \"chaincodeVer\": \"v2.4\",\r\n   \"method\": \"queryPO\",\r\n   \"args\": [\r\n   \t\t\"x00003\"\r\n   \t]\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://wedotracking-gse00011668.apaas.us2.oraclecloud.com/po/163326/generateShipment",
+					"protocol": "https",
+					"host": [
+						"wedotracking-gse00011668",
+						"apaas",
+						"us2",
+						"oraclecloud",
+						"com"
+					],
+					"path": [
+						"po",
+						"163326",
+						"generateShipment"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Shipment - Query by PO",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"channel\": \"wedobuyerorderer\",\r\n   \"chaincode\": \"tracking\",\r\n   \"chaincodeVer\": \"v3.15\",\r\n   \"method\": \"queryPO\",\r\n   \"args\": [\r\n   \t\t\"163319\"\r\n   \t]\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://wedotracking-gse00011668.apaas.us2.oraclecloud.com/po/163326/products",
+					"protocol": "https",
+					"host": [
+						"wedotracking-gse00011668",
+						"apaas",
+						"us2",
+						"oraclecloud",
+						"com"
+					],
+					"path": [
+						"po",
+						"163326",
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Shipment - Update SCM (TBC)",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"shipment\": \"Q1111111\",\r\n   \"shipdate\": \"2018-05-19\"\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://wedotracking-gse00011668.apaas.us2.oraclecloud.com/po/10025/updateShipmentInSCM",
+					"protocol": "https",
+					"host": [
+						"wedotracking-gse00011668",
+						"apaas",
+						"us2",
+						"oraclecloud",
+						"com"
+					],
+					"path": [
+						"po",
+						"10025",
+						"updateShipmentInSCM"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Shipment - Take Custody (BC)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"channel\": \"wedobuyerorderer\",\r\n   \"chaincode\": \"tracking\",\r\n   \"chaincodeVer\": \"v4.1\",\r\n   \"method\": \"takeCustodyOfShipment\",\r\n   \"args\": [\r\n   \t\t\"ABCD003\",\r\n   \t\t\"dummy.customer\",\r\n   \t\t\"\",\r\n   \t\t\"CUSTOMER\"\r\n   \t]\r\n}"
+				},
+				"url": {
+					"raw": "http://129.213.60.1:3100/bcsgw/rest/v1/transaction/invocation",
+					"protocol": "http",
+					"host": [
+						"129",
+						"213",
+						"60",
+						"1"
+					],
+					"port": "3100",
+					"path": [
+						"bcsgw",
+						"rest",
+						"v1",
+						"transaction",
+						"invocation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Shipment - Alert (BC)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"channel\": \"wedobuyerorderer\",\r\n   \"chaincode\": \"tracking\",\r\n   \"chaincodeVer\": \"v3.22\",\r\n   \"method\": \"alertForShipment\",\r\n   \"args\": [\r\n   \t\t\"S10001\",\r\n   \t\t\"water damage\"\r\n   \t]\r\n}"
+				},
+				"url": {
+					"raw": "http://129.213.60.1:3100/bcsgw/rest/v1/transaction/invocation",
+					"protocol": "http",
+					"host": [
+						"129",
+						"213",
+						"60",
+						"1"
+					],
+					"port": "3100",
+					"path": [
+						"bcsgw",
+						"rest",
+						"v1",
+						"transaction",
+						"invocation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PO Create",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"channel\": \"wedobuyerorderer\",\r\n   \"chaincode\": \"tracking\",\r\n   \"chaincodeVer\": \"v4.09\",\r\n   \"method\": \"createPO\",\r\n   \"args\": [\r\n   \t\t\"130005\",\r\n   \t\t\"<<NOW>>\",\r\n   \t\t\"wedo.buyer\",\r\n   \t\t\"wedo.supplier\",\r\n   \t\t\"[{'model':'RS77071','quantity':'1'},{'model':'WT80091','quantity':'1'}]\",\r\n   \t\t\"\",\r\n   \t\t\"\",\r\n   \t\t\"2018-07-20T16:38:13Z\",\r\n   \t\t\"Madrid\"\r\n   \t]\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://wedotracking-gse00011668.apaas.us2.oraclecloud.com/proxy/invocation",
+					"protocol": "https",
+					"host": [
+						"wedotracking-gse00011668",
+						"apaas",
+						"us2",
+						"oraclecloud",
+						"com"
+					],
+					"path": [
+						"proxy",
+						"invocation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PO Close",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"channel\": \"wedobuyerorderer\",\r\n   \"chaincode\": \"tracking\",\r\n   \"chaincodeVer\": \"v4.1\",\r\n   \"method\": \"closePO\",\r\n   \"args\": [\r\n   \t\t\"CM0JJ8856SS\"\r\n   \t]\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://wedotracking-gse00011668.apaas.us2.oraclecloud.com/proxy/invocation",
+					"protocol": "https",
+					"host": [
+						"wedotracking-gse00011668",
+						"apaas",
+						"us2",
+						"oraclecloud",
+						"com"
+					],
+					"path": [
+						"proxy",
+						"invocation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PO Cancel",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"channel\": \"wedobuyerorderer\",\r\n   \"chaincode\": \"tracking\",\r\n   \"chaincodeVer\": \"v4.1\",\r\n   \"method\": \"cancelPO\",\r\n   \"args\": [\r\n   \t\t\"B9SJJ5KZ9OW\"\r\n   \t]\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://wedotracking-gse00011668.apaas.us2.oraclecloud.com/proxy/invocation",
+					"protocol": "https",
+					"host": [
+						"wedotracking-gse00011668",
+						"apaas",
+						"us2",
+						"oraclecloud",
+						"com"
+					],
+					"path": [
+						"proxy",
+						"invocation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PO Update Shipment",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"channel\": \"wedobuyerorderer\",\r\n   \"chaincode\": \"tracking\",\r\n   \"chaincodeVer\": \"v4.1\",\r\n   \"method\": \"updatePOWithShipment\",\r\n   \"args\": [\r\n   \t\t\"CBGJJ5L5GPM\",\r\n   \t\t\"{'shipment':'<<UUID>>','products':[{'model':'QS00001','sn':'<<UUID>>'}]}\",\r\n   \t\t\"<<NOW>>\"\r\n   \t]\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://wedotracking-gse00011668.apaas.us2.oraclecloud.com/proxy/invocation",
+					"protocol": "https",
+					"host": [
+						"wedotracking-gse00011668",
+						"apaas",
+						"us2",
+						"oraclecloud",
+						"com"
+					],
+					"path": [
+						"proxy",
+						"invocation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PO Query (GET)",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"channel\": \"wedobuyerorderer\",\r\n   \"chaincode\": \"tracking\",\r\n   \"chaincodeVer\": \"v3.15\",\r\n   \"method\": \"queryPO\",\r\n   \"args\": [\r\n       \"10019\"\r\n     ]\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://wedotracking-gse00011668.apaas.us2.oraclecloud.com/po/CBGJJ5L5GPM",
+					"protocol": "https",
+					"host": [
+						"wedotracking-gse00011668",
+						"apaas",
+						"us2",
+						"oraclecloud",
+						"com"
+					],
+					"path": [
+						"po",
+						"CBGJJ5L5GPM"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PO Query (BC)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"channel\": \"wedobuyerorderer\",\r\n   \"chaincode\": \"tracking\",\r\n   \"chaincodeVer\": \"v4.01\",\r\n   \"method\": \"queryPO\",\r\n   \"args\": [\r\n   \t\t\"163274\"\r\n   \t]\r\n}\r\n"
+				},
+				"url": {
+					"raw": "http://129.213.60.1:3100/bcsgw/rest/v1/transaction/query",
+					"protocol": "http",
+					"host": [
+						"129",
+						"213",
+						"60",
+						"1"
+					],
+					"port": "3100",
+					"path": [
+						"bcsgw",
+						"rest",
+						"v1",
+						"transaction",
+						"query"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PO Query By Buyer",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"channel\": \"wedobuyerorderer\",\r\n   \"chaincode\": \"tracking\",\r\n   \"chaincodeVer\": \"v4.09\",\r\n   \"method\": \"queryPOByBuyer\",\r\n   \"args\": [\r\n   \t\t\"wedo.buyer\",\r\n   \t\t\"closed\"\r\n   \t]\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://wedotracking-gse00011668.apaas.us2.oraclecloud.com/proxy/queryJSON",
+					"protocol": "https",
+					"host": [
+						"wedotracking-gse00011668",
+						"apaas",
+						"us2",
+						"oraclecloud",
+						"com"
+					],
+					"path": [
+						"proxy",
+						"queryJSON"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PO Query By Supplier",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"channel\": \"wedobuyerorderer\",\r\n   \"chaincode\": \"tracking\",\r\n   \"chaincodeVer\": \"v4.03\",\r\n   \"method\": \"queryPOBySupplier\",\r\n   \"args\": [\r\n   \t\t\"wedo.supplier\"\r\n   \t]\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://wedotracking-gse00011668.apaas.us2.oraclecloud.com/proxy/queryJSON",
+					"protocol": "https",
+					"host": [
+						"wedotracking-gse00011668",
+						"apaas",
+						"us2",
+						"oraclecloud",
+						"com"
+					],
+					"path": [
+						"proxy",
+						"queryJSON"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PO Query All",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"channel\": \"wedobuyerorderer\",\r\n   \"chaincode\": \"tracking\",\r\n   \"chaincodeVer\": \"v4.01\",\r\n   \"method\": \"queryAllPOs\",\r\n   \"args\": [ ]\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://wedotracking-gse00011668.apaas.us2.oraclecloud.com/proxy/queryJSON",
+					"protocol": "https",
+					"host": [
+						"wedotracking-gse00011668",
+						"apaas",
+						"us2",
+						"oraclecloud",
+						"com"
+					],
+					"path": [
+						"proxy",
+						"queryJSON"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User - Create",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"carlos.garcia\",\r\n    \"password\": \"1234\",\r\n    \"fullname\": \"Carlos Garcia\",\r\n    \"role\": \"INSTALLER\",\r\n    \"truckid\": \"\",\r\n    \"orgname\": \"Madrid Net\",\r\n    \"orgicon\": \"\"\r\n  }"
+				},
+				"url": {
+					"raw": "https://wedotracking-gse00011668.apaas.us2.oraclecloud.com/users/",
+					"protocol": "https",
+					"host": [
+						"wedotracking-gse00011668",
+						"apaas",
+						"us2",
+						"oraclecloud",
+						"com"
+					],
+					"path": [
+						"users",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User - Update",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"montekluemper\",\r\n    \"password\": \"1234\",\r\n    \"fullname\": \"Monte Kluemper\",\r\n    \"role\": \"BUYER\",\r\n    \"orgname\": \"Oracle Telco\",\r\n    \"orgicon\": \"22222\"\r\n  }"
+				},
+				"url": {
+					"raw": "https://wedotracking-gse00011668.apaas.us2.oraclecloud.com/users/",
+					"protocol": "https",
+					"host": [
+						"wedotracking-gse00011668",
+						"apaas",
+						"us2",
+						"oraclecloud",
+						"com"
+					],
+					"path": [
+						"users",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User - Get",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://wedotracking-gse00011668.apaas.us2.oraclecloud.com/users/wedo.logistics",
+					"protocol": "https",
+					"host": [
+						"wedotracking-gse00011668",
+						"apaas",
+						"us2",
+						"oraclecloud",
+						"com"
+					],
+					"path": [
+						"users",
+						"wedo.logistics"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User - Login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"ultralogistics\",\r\n    \"password\": \"1234\"\r\n  }"
+				},
+				"url": {
+					"raw": "https://wedotracking-gse00011668.apaas.us2.oraclecloud.com/users/login",
+					"protocol": "https",
+					"host": [
+						"wedotracking-gse00011668",
+						"apaas",
+						"us2",
+						"oraclecloud",
+						"com"
+					],
+					"path": [
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User - Export Users",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://wedotracking-gse00011668.apaas.us2.oraclecloud.com/users/export",
+					"protocol": "https",
+					"host": [
+						"wedotracking-gse00011668",
+						"apaas",
+						"us2",
+						"oraclecloud",
+						"com"
+					],
+					"path": [
+						"users",
+						"export"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User - Import Users",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[{\"$class\":\"com.oraclex.scm.User\",\"username\":\"carlos.garcia\",\"password\":\"1234\",\"fullname\":\"Carlos Garcia\",\"role\":\"INSTALLER\",\"truckid\":\"\",\"orgname\":\"Madrid Net\",\"orgicon\":\"\"},{\"$class\":\"com.oraclex.scm.User\",\"username\":\"castillas\",\"password\":\"1234\",\"fullname\":\"Castillas\",\"role\":\"DISTRIBUTOR\",\"truckid\":\"\",\"orgname\":\"Castillas\",\"orgicon\":\"\"},{\"$class\":\"com.oraclex.scm.User\",\"username\":\"demo.buyer\",\"password\":\"1234\",\"fullname\":\"Demo buyer\",\"role\":\"BUYER\",\"truckid\":\"\",\"orgname\":\"Oracle Buyer\",\"orgicon\":\"\"},{\"$class\":\"com.oraclex.scm.User\",\"username\":\"demo.customer\",\"password\":\"1234\",\"fullname\":\"Demo Customer\",\"role\":\"CUSTOMER\",\"truckid\":\"\",\"orgname\":\"Oracle Customer\",\"orgicon\":\"\"},{\"$class\":\"com.oraclex.scm.User\",\"username\":\"demo.distributor\",\"password\":\"1234\",\"fullname\":\"Demo distributor\",\"role\":\"DISTRIBUTOR\",\"truckid\":\"\",\"orgname\":\"Oracle Distributor\",\"orgicon\":\"\"},{\"$class\":\"com.oraclex.scm.User\",\"username\":\"demo.installer\",\"password\":\"1234\",\"fullname\":\"Demo Installer\",\"role\":\"INSTALLER\",\"truckid\":\"\",\"orgname\":\"Oracle Installer\",\"orgicon\":\"\"},{\"$class\":\"com.oraclex.scm.User\",\"username\":\"demo.supplier\",\"password\":\"1234\",\"fullname\":\"Demo Supplier\",\"role\":\"SUPPLIER\",\"truckid\":\"\",\"orgname\":\"Oracle Supplier\",\"orgicon\":\"\"},{\"$class\":\"com.oraclex.scm.User\",\"username\":\"lee.supplies\",\"password\":\"1234\",\"fullname\":\"Ryan Lee\",\"role\":\"SUPPLIER\",\"truckid\":\"\",\"orgname\":\"Lee supplies\",\"orgicon\":\"\"},{\"$class\":\"com.oraclex.scm.User\",\"username\":\"madrid.net\",\"password\":\"1234\",\"fullname\":\"Madrid Net\",\"role\":\"INSTALLER\",\"truckid\":\"\",\"orgname\":\"Madrid Net\",\"orgicon\":\"\"},{\"$class\":\"com.oraclex.scm.User\",\"username\":\"montekluemper\",\"password\":\"1234\",\"fullname\":\"Monte Kluemper\",\"role\":\"BUYER\",\"orgname\":\"Oracle Telco\",\"orgicon\":\"xxxx\"},{\"$class\":\"com.oraclex.scm.User\",\"username\":\"neuronica\",\"password\":\"1234\",\"fullname\":\"Neuronica\",\"role\":\"BUYER\",\"truckid\":\"\",\"orgname\":\"Neuronica\",\"orgicon\":\"\"},{\"$class\":\"com.oraclex.scm.User\",\"username\":\"roth.calvin\",\"password\":\"1234\",\"fullname\":\"Calvin Roth\",\"role\":\"BUYER\",\"truckid\":\"\",\"orgname\":\"Neuronica\",\"orgicon\":\"\"},{\"$class\":\"com.oraclex.scm.User\",\"username\":\"ryan.lee\",\"password\":\"1234\",\"fullname\":\"Ryan Lee\",\"role\":\"SUPPLIER\",\"truckid\":\"\",\"orgname\":\"Lee supplies\",\"orgicon\":\"\"},{\"$class\":\"com.oraclex.scm.User\",\"username\":\"speedy\",\"password\":\"1234\",\"fullname\":\"Speedy\",\"role\":\"DISTRIBUTOR\",\"truckid\":\"\",\"orgname\":\"Speedy\",\"orgicon\":\"\"},{\"$class\":\"com.oraclex.scm.User\",\"username\":\"ultralogistics\",\"password\":\"1234\",\"fullname\":\"Ultra Logistics\",\"role\":\"LOGISTICS\",\"truckid\":\"12222\",\"orgname\":\"Ultra Logistics\",\"orgicon\":\"\"},{\"$class\":\"com.oraclex.scm.User\",\"username\":\"wedo.buyer\",\"password\":\"1234\",\"fullname\":\"wedo buyer\",\"role\":\"BUYER\",\"truckid\":\"\",\"orgname\":\"Wedo Buyer\",\"orgicon\":\"\"},{\"$class\":\"com.oraclex.scm.User\",\"username\":\"wedo.customer\",\"password\":\"1234\",\"fullname\":\"wedo Customer\",\"role\":\"CUSTOMER\",\"truckid\":\"\",\"orgname\":\"Wedo Customer\",\"orgicon\":\"\"},{\"$class\":\"com.oraclex.scm.User\",\"username\":\"wedo.distributor\",\"password\":\"1234\",\"fullname\":\"wedo distributor\",\"role\":\"DISTRIBUTOR\",\"truckid\":\"\",\"orgname\":\"Wedo Distributor\",\"orgicon\":\"\"},{\"$class\":\"com.oraclex.scm.User\",\"username\":\"wedo.installer\",\"password\":\"1234\",\"fullname\":\"wedo Installer\",\"role\":\"INSTALLER\",\"truckid\":\"\",\"orgname\":\"Wedo Installer\",\"orgicon\":\"\"},{\"$class\":\"com.oraclex.scm.User\",\"username\":\"wedo.logistics\",\"password\":\"1234\",\"fullname\":\"wedo Logistics\",\"role\":\"LOGISTICS\",\"truckid\":\"12222\",\"orgname\":\"Wedo Logistics\",\"orgicon\":\"\"},{\"$class\":\"com.oraclex.scm.User\",\"username\":\"wedo.supplier\",\"password\":\"1234\",\"fullname\":\"wedo Supplier\",\"role\":\"SUPPLIER\",\"truckid\":\"\",\"orgname\":\"Wedo Supplier\",\"orgicon\":\"\"}]"
+				},
+				"url": {
+					"raw": "https://wedotracking-gse00011668.apaas.us2.oraclecloud.com/users/import",
+					"protocol": "https",
+					"host": [
+						"wedotracking-gse00011668",
+						"apaas",
+						"us2",
+						"oraclecloud",
+						"com"
+					],
+					"path": [
+						"users",
+						"import"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Transport - Alert",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"message\": \"Temperature above acceptable range on 8/5/18 at 14.31.15h\"\r\n}"
+				},
+				"url": {
+					"raw": "https://wedotracking-gse00011668.apaas.us2.oraclecloud.com/transport/12222/alert",
+					"protocol": "https",
+					"host": [
+						"wedotracking-gse00011668",
+						"apaas",
+						"us2",
+						"oraclecloud",
+						"com"
+					],
+					"path": [
+						"transport",
+						"12222",
+						"alert"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Transport - Event",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\t{\"message\":\"Inspection Monte Kluemper\"}"
+				},
+				"url": {
+					"raw": "https://wedotracking-gse00011668.apaas.us2.oraclecloud.com/transport/12222x/event",
+					"protocol": "https",
+					"host": [
+						"wedotracking-gse00011668",
+						"apaas",
+						"us2",
+						"oraclecloud",
+						"com"
+					],
+					"path": [
+						"transport",
+						"12222x",
+						"event"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Transport - Get",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://wedotracking-gse00011668.apaas.us2.oraclecloud.com/transport/12222",
+					"protocol": "https",
+					"host": [
+						"wedotracking-gse00011668",
+						"apaas",
+						"us2",
+						"oraclecloud",
+						"com"
+					],
+					"path": [
+						"transport",
+						"12222"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Transport - Alert (BC)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"channel\": \"wedobuyerorderer\",\r\n   \"chaincode\": \"tracking\",\r\n   \"chaincodeVer\": \"v3.22\",\r\n   \"method\": \"alertForTransport\",\r\n   \"args\": [\r\n   \t\t\"T10001\",\r\n   \t\t\"water damage\"\r\n   \t]\r\n}"
+				},
+				"url": {
+					"raw": "http://129.213.60.1:3100/bcsgw/rest/v1/transaction/invocation",
+					"protocol": "http",
+					"host": [
+						"129",
+						"213",
+						"60",
+						"1"
+					],
+					"port": "3100",
+					"path": [
+						"bcsgw",
+						"rest",
+						"v1",
+						"transaction",
+						"invocation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Transport - Event (BC)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"channel\": \"wedobuyerorderer\",\r\n   \"chaincode\": \"tracking\",\r\n   \"chaincodeVer\": \"v3.22\",\r\n   \"method\": \"eventForProduct\",\r\n   \"args\": [\r\n   \t\t\"PL8JH9XM5ZL\",\r\n   \t\t\"water damage\"\r\n   \t]\r\n}"
+				},
+				"url": {
+					"raw": "http://129.213.60.1:3100/bcsgw/rest/v1/transaction/invocation",
+					"protocol": "http",
+					"host": [
+						"129",
+						"213",
+						"60",
+						"1"
+					],
+					"port": "3100",
+					"path": [
+						"bcsgw",
+						"rest",
+						"v1",
+						"transaction",
+						"invocation"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <% include ../fragments/head %>
+</head>
+
+<body>
+
+<% include ../fragments/nav %>
+
+<!-- Page Content -->
+<div class="container">
+
+  <!-- Jumbotron Header -->
+  <header class="jumbotron my-4">
+    <h1 class="display-5" id="username"><%= user.fullname %></h1>
+    <p class="display-12" id="role"><%= user.role %></p>
+    <p class="lead">
+    </p>
+  </header>
+
+  <!-- Page Features -->
+  <% var shipments = Object.keys(inventory.shipments); %>
+  <% var orphans = inventory.shipments[""]; %>
+  <% var numOrphans = 0; if( orphans ) { numOrphans = orphans.length; }%>
+  <% var numShipments = 0; if( shipments ) { numShipments = (numOrphans>0) ? shipments.length-1 : shipments.length; }%>
+  <div class="row">
+    <div class="col-md-12">
+      <h5 class="card-box-title"><%= numShipments %> shipment(s) prepared</h5>
+      <h6 class="card-box-detail"><%= numOrphans %> product(s) not associated with shipments</h6>
+    </div>
+  </div>
+  <div class="row text-center">
+    <% for( var i=0; i < shipments.length; i++ ) { %>
+      <% if( shipments[i] == "" ) { continue; } %>
+      <% products = inventory.shipments[shipments[i]]; %>
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card">
+          <div class="card-header">
+            <h5><a href="/tracker/shipmentDetail/<%= shipments[i] %>"><%= shipments[i] %></a></h5>
+
+          </div>
+          <div class="card-body">
+            <div class="card-box">
+              <h6 class="card-box-title"><%= products.length %> product(s)</h6>
+            </div>
+          </div>
+          <div class="card-footer">
+            <h6 class="card-detail"><%= products[0].DestinationID %> (<%= products[0].DestinationLabel %>)</h6>
+            <h6 class="card-detail"><a href="/tracker/poDetail/<%= products[0].PO %>"><%= products[0].PO %></a></h6>
+          </div>
+        </div>
+      </div>
+    <% } %>
+  </div>
+  <!-- /.row -->
+
+</div>
+<!-- /.container -->
+
+<% include ../fragments/footer %>
+
+<!-- Bootstrap core JavaScript -->
+<script src="/resources/jquery/jquery.min.js"></script>
+<script src="/resources/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<script type="text/javascript">
+</script>
+
+</body>
+
+</html>

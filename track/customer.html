@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<title>WEDO Tracking</title>
+
+<!-- Bootstrap core CSS -->
+<link href="/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Custom styles for this template -->
+<link href="/resources/css/heroic-features.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="#">WEDO Tracking</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Home
+            <span class="sr-only">(current)</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Services</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Contact</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Page Content -->
+<div class="container">
+
+  <!-- Jumbotron Header -->
+  <header class="jumbotron my-4">
+    <h1 class="display-5" id="username"></h1>
+    <p class="lead">
+    </p>
+  </header>
+<script>
+var headers = document.request.headers.entries();
+$( "#username" ).text(JSON.stringify(headers));
+</script>
+
+
+  <!-- Page Features -->
+  <div class="row text-center">
+
+    <div class="col-lg-3 col-md-6 mb-4">
+      <div class="card">
+        <img class="card-img-top" src="http://placehold.it/500x325" alt="">
+        <div class="card-body">
+          <h4 class="card-title">Card title</h4>
+          <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>
+        </div>
+        <div class="card-footer">
+          <a href="#" class="btn btn-primary">Find Out More!</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 mb-4">
+      <div class="card">
+        <img class="card-img-top" src="http://placehold.it/500x325" alt="">
+        <div class="card-body">
+          <h4 class="card-title">Card title</h4>
+          <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo magni sapiente, tempore debitis beatae culpa natus architecto.</p>
+        </div>
+        <div class="card-footer">
+          <a href="#" class="btn btn-primary">Find Out More!</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 mb-4">
+      <div class="card">
+        <img class="card-img-top" src="http://placehold.it/500x325" alt="">
+        <div class="card-body">
+          <h4 class="card-title">Card title</h4>
+          <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>
+        </div>
+        <div class="card-footer">
+          <a href="#" class="btn btn-primary">Find Out More!</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 mb-4">
+      <div class="card">
+        <img class="card-img-top" src="http://placehold.it/500x325" alt="">
+        <div class="card-body">
+          <h4 class="card-title">Card title</h4>
+          <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo magni sapiente, tempore debitis beatae culpa natus architecto.</p>
+        </div>
+        <div class="card-footer">
+          <a href="#" class="btn btn-primary">Find Out More!</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <!-- /.row -->
+
+</div>
+<!-- /.container -->
+
+<!-- Footer -->
+<footer class="py-5 bg-dark">
+  <div class="container">
+    <p class="m-0 text-center text-white">Copyright &copy; Your Website 2018</p>
+  </div>
+  <!-- /.container -->
+</footer>
+
+<!-- Bootstrap core JavaScript -->
+<script src="resources/jquery/jquery.min.js"></script>
+<script src="resources/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<script type="text/javascript">
+function prepareShipment() {
+  var po = document.getElementById("poLbl").textContent;
+  if( document.getElementById("shLbl").textContent == "" ) {
+    $( "#message" ).text("Shipment will be created ");
+    var url = "/po/"+po+"/generateShipment/";
+    $.getJSON( url, function( data ) {
+      $( "#message" ).text( "Error in processing request." );("Shipment Created.");
+    })
+    .fail(function() {
+      $( "#message" ).text( "Shipment could not be created." );
+    });
+  } else {
+    $( "#message" ).text("Shipment already exists for PO "+po);
+  }
+}
+$( "#searchForm" ).submit(function( event ) {
+  $( "#message" ).text("");
+  let key = $( "#search" ).val();
+  if( key && key.length>0 ) {
+    $( "#labelItems" ).empty();
+    $.getJSON( "/po/"+key, function( data ) {
+      if( data.PO ) {
+        let qr = "/qr/"+key;
+        document.getElementById("poImg").src=qr;
+        document.getElementById("poLbl").textContent=key;
+        var details = data.Details;
+        if( details && details.length>0 ) {
+          $( "#labelItems" ).append( "<h3>Total: "+details.length+" models</h3>" );
+          for (var i = 0, len = details.length; i < len; i++) {
+            $( "#labelItems" ).append( "<div>"+details[i].model+" ("+details[i].quantity+")</div>" );
+          }
+        }
+        $( "#label" ).show();
+      } else {
+        $( "#message" ).text("No PO found.");
+        $( "#labelzz" ).hide();
+      }
+    })
+    .fail(function() {
+      $( "#message" ).text( "Error in processing request." );
+      $( "#labelzz" ).hide();
+    });
+    $( "#shipmentzz" ).hide();
+    document.getElementById("shLbl").textContent="";
+    $.getJSON( "/po/"+key+"/products", function( data2 ) {
+      if( data2 && data2.length>0 ) {
+        poShipment = data2[0].Shipment;
+        $("#shLbl").empty();
+          $("#shLbl").append("<a href='/tracking/shipment.html?search="+data2[0].Shipment+"'>"+data2[0].Shipment+"</a>");
+        $("#shDst").append("<a href='/tracking/stockByShipment.html?search="+data2[0].DestinationID+"'>"+data2[0].DestinationID+"</a>");
+        $( "#itemRows" ).empty();
+        $.each(data2,function(index,item){
+          appendItem([item.SN, item.Model, item.SupplierID, item.Assembly_Date]);
+        });
+        $( "#shipment" ).show();
+        $("#prepareShipmentzz").hide();
+      } else {
+        $("#prepareShipment").show();
+      }
+    })
+    .fail(function() {
+      $( "#shipmentzz" ).hide();
+    });
+  } else {
+    $( "#shipmentzz" ).hide();
+  }
+  event.preventDefault();
+});
+function appendItem(rowData) {
+  var lastRow = $('<tr/>').appendTo("#itemRows");
+  $.each(rowData, function(colIndex, c) {
+    if( colIndex == 0 ) {
+      //lastRow.append($('<td/>').text("<a href='/tracking/sn.html?search="+c+"'>"+c+"</a>"));
+      lastRow.append($('<td/>').html("<a href='/tracking/sn.html?search="+c+"'>"+c+"</a>"));
+    } else {
+      lastRow.append($('<td/>').text(c));
+    }
+  });
+
+  return lastRow;
+}
+$( "#labelzz" ).hide();
+$( "#shipmentzz" ).hide();
+var urlParams = new URLSearchParams(window.location.search);
+var sid = urlParams.get('search');
+if( sid ) {
+  $("#search").val(sid);
+  $("#searchForm").trigger("submit");
+}
+</script>
+
+</body>
+
+</html>

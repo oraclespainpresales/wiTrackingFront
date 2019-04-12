@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="jquery.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+* {box-sizing: border-box;}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.header {
+  overflow: hidden;
+  background-color: #027BC7;
+  border-bottom: 3px solid black;
+}
+
+.header #title {
+  float: left;
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.header .search-container {
+  float: right;
+}
+
+.header input[type=text] {
+  padding: 6px;
+  margin-top: 8px;
+  font-size: 17px;
+  width: 140px;
+  border: none;
+}
+
+.header .search-container button {
+  float: right;
+  padding: 6px 10px;
+  margin-top: 8px;
+  margin-right: 16px;
+  background: #ddd;
+  font-size: 17px;
+  border: none;
+  cursor: pointer;
+}
+
+.header .search-container button:hover {
+  background: #ccc;
+}
+
+@media screen and (max-width: 400px) {
+  .header .search-container {
+    float: none;
+  }
+  .header a, .header input[type=text], .header .search-container button {
+    float: none;
+    display: block;
+    text-align: left;
+    width: 100%;
+    margin: 0;
+    padding: 14px;
+  }
+  .header input[type=text] {
+    border: 1px solid #ccc;
+  }
+}
+#label {
+  width: 300px;
+  border:1px solid black;
+  padding: 10px;
+  text-align:center
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <span id="title">SN Simulator</span>
+  <div class="search-container">
+    <form id="searchForm" action="#">
+      <input type="text" placeholder="Enter SN..." id="search" name="search">
+      <button type="submit"><i class="fa fa-search"></i></button>
+    </form>
+  </div>
+</div>
+
+<div id="message"></div>
+<div style="padding:16px">
+  <div id="label">
+    <img src="/imgs/oracle.jpg" style="width:250px"/>
+    <h2>SN: <span id="snLbl">xxxxx</span></h2>
+    <img id="snImg" src=""/>
+    <h3>Model:  <span id="mdLbl">xxxxx</span></h3>
+  </div>
+</div>
+<script type="text/javascript">
+  $( "#searchForm" ).submit(function( event ) {
+    document.getElementById("message").textContent="";
+    let key = $( "#search" ).val();
+    if( key && key.length>0 ) {
+      $.getJSON( "/sn/t/"+key, function( data ) {
+        if( data.sn ) {
+          let qr = "/qr/"+key;
+          document.getElementById("snImg").src=qr;
+          document.getElementById("snLbl").textContent=key;
+          document.getElementById("mdLbl").textContent=data.model;
+          $( "#label" ).show();
+        } else {
+          $( "#message" ).textContent="No SN found.";
+          $( "#label" ).hide();
+        }
+      })
+      .fail(function() {
+        $( "#message" ).textContent="Error in processing request.";
+        $( "#label" ).hide();
+      });
+
+    } else {
+      $( "#label" ).hide();
+    }
+    event.preventDefault();
+  });
+  $( "#label" ).hide();
+</script>
+
+</body>
+</html>

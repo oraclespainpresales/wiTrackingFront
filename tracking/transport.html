@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="/resources/js/jquery.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+* {box-sizing: border-box;}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.header {
+  overflow: hidden;
+  background-color: #027BC7;
+  border-bottom: 3px solid black;
+}
+
+.header #title {
+  float: left;
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.header .search-container {
+  float: right;
+}
+
+.header input[type=text] {
+  padding: 6px;
+  margin-top: 8px;
+  font-size: 17px;
+  width: 140px;
+  border: none;
+}
+
+.header .search-container button {
+  float: right;
+  padding: 6px 10px;
+  margin-top: 8px;
+  margin-right: 16px;
+  background: #ddd;
+  font-size: 17px;
+  border: none;
+  cursor: pointer;
+}
+
+.header .search-container button:hover {
+  background: #ccc;
+}
+
+@media screen and (max-width: 400px) {
+  .header .search-container {
+    float: none;
+  }
+  .header a, .header input[type=text], .header .search-container button {
+    float: none;
+    display: block;
+    text-align: left;
+    width: 100%;
+    margin: 0;
+    padding: 14px;
+  }
+  .header input[type=text] {
+    border: 1px solid #ccc;
+  }
+}
+#label {
+  width: 100%;
+  border:1px solid black;
+  padding: 10px;
+}
+.column-2 {
+    float: left;
+    width: 45%;
+    padding: 10px;
+}
+
+.column-3 {
+    float: left;
+    width: 30%;
+    padding: 10px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+.btn {
+  border: 1px solid #42ABF7;
+  background: #027BC7;
+  color: white;
+  font: bold 16px 'Trebuchet MS';
+  padding: 6px 10px;
+  margin: 5px;
+  cursor: pointer;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <span id="title">Transport IOT Simulator</span>
+  <div class="search-container">
+    <form id="searchForm" action="#">
+      <input type="text" placeholder="Enter Truck ID..." id="search" name="search">
+      <button type="submit"><i class="fa fa-search"></i></button>
+    </form>
+  </div>
+</div>
+
+<div id="message"></div>
+<div id="container" style="padding:16px">
+  <div class="row">
+    <div class="column-2" style="text-align:center">
+      <img id="img" src="/imgs/truck.png"/>
+      <div>
+        <input class="btn" type="button" value="Temp" id="temp" onClick="onTemp()"/>
+        <input class="btn" type="button" value="Water" id="water" onClick="onWater()"/>
+        <input class="btn" type="button" value="Mech." id="mech" onClick="onMech()"/>
+      </div>
+    </div>
+    <div class="column-2">
+      <div id="label">
+        <h2>Truck: <span id="truck">xxxxx</span></h2>
+        <p>Custodian: <span id="custodian">xxxxx</span></p>
+        <h2>Cargo</h2>
+        <div id="labelDetails"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+function onTemp() {
+  var truck = document.getElementById("truck").textContent;
+  var url = "/transport/"+truck+"/alert";
+  $.post( url, { "message": "High temperature registered in TransportID "+truck }, function( data ) {
+    //alert("Event:"+JSON.stringify(data));
+    $( "#message" ).text("Event thrown.");
+  })
+  .fail(function() {
+    $( "#message" ).text( "Error throwing event." );
+  });
+}
+function onWater() {
+  var truck = document.getElementById("truck").textContent;
+  var url = "/transport/"+truck+"/alert";
+  $.post( url, { "message": "Humidity registered in TransportID "+truck }, function( data ) {
+    //alert("Event:"+JSON.stringify(data));
+    $( "#message" ).text("Event thrown.");
+  })
+  .fail(function() {
+    $( "#message" ).text( "Error throwing event." );
+  });
+}
+function onMech() {
+  var truck = document.getElementById("truck").textContent;
+  var url = "/transport/"+truck+"/alert";
+  $.post( url, { "message": "Mechanical problem registered in TransportID "+truck }, function( data ) {
+    //alert("Event:"+JSON.stringify(data));
+    $( "#message" ).text("Event thrown.");
+  })
+  .fail(function() {
+    $( "#message" ).text( "Error throwing event." );
+  });
+}
+  $( "#searchForm" ).submit(function( event ) {
+    document.getElementById("message").textContent="";
+    let key = $( "#search" ).val();
+    if( key && key.length>0 ) {
+      $.getJSON( "/transport/"+key, function( data ) {
+        if( data ) {
+          document.getElementById("truck").textContent=key;
+          if( data.length>0 ) {
+            document.getElementById("custodian").textContent=data[0].Custodian;
+            $( "#labelDetails" ).empty();
+            $( "#labelDetails" ).append( "<h3>Total: "+data.length+" products</h3>" );
+            for (var i = 0, len = data.length; i < len; i++) {
+              $( "#labelDetails" ).append( "<div>"+data[i].SN+" ("+data[i].Shipment+")</div>" );
+            }
+          }
+          $( "#container" ).show();
+        } else {
+          $( "#message" ).textContent="No Truck found.";
+          $( "#container" ).hide();
+        }
+      })
+      .fail(function() {
+        $( "#message" ).textContent="Error in processing request.";
+        $( "#container" ).hide();
+      });
+
+    } else {
+      $( "#container" ).hide();
+    }
+    event.preventDefault();
+  });
+  function onTemp2() {
+    alert("Alert sent for elevated Temperatures in Truck.")
+    event.preventDefault();
+  };
+  function onWater2() {
+    alert("Alert sent for water detection in Truck.")
+    event.preventDefault();
+  };
+  function onMech2() {
+    alert("Alert sent for mechanical failure in Truck.")
+    event.preventDefault();
+  };
+  $( "#container" ).hide();
+  var urlParams = new URLSearchParams(window.location.search);
+  var sid = urlParams.get('search');
+  if( sid ) {
+    $("#search").val(sid);
+    $("#searchForm").trigger("submit");
+  }
+</script>
+
+</body>
+</html>

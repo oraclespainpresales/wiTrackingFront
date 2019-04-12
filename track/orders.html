@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="jquery.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+* {box-sizing: border-box;}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.header {
+  overflow: hidden;
+  background-color: #027BC7;
+  border-bottom: 3px solid black;
+}
+
+.header #title {
+  float: left;
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.header .search-container {
+  float: right;
+}
+
+.header input[type=text] {
+  padding: 6px;
+  margin-top: 8px;
+  font-size: 17px;
+  width: 140px;
+  border: none;
+}
+
+.header .search-container button {
+  float: right;
+  padding: 6px 10px;
+  margin-top: 8px;
+  margin-right: 16px;
+  background: #ddd;
+  font-size: 17px;
+  border: none;
+  cursor: pointer;
+}
+
+.header .search-container button:hover {
+  background: #ccc;
+}
+
+@media screen and (max-width: 400px) {
+  .header .search-container {
+    float: none;
+  }
+  .header a, .header input[type=text], .header .search-container button {
+    float: none;
+    display: block;
+    text-align: left;
+    width: 100%;
+    margin: 0;
+    padding: 14px;
+  }
+  .header input[type=text] {
+    border: 1px solid #ccc;
+  }
+}
+#po {
+  width: 300px;
+  border:2px solid black;
+  padding: 10px;
+  text-align:center
+}
+.btn {
+  border: 1px solid #42ABF7;
+  background: #027BC7;
+  color: white;
+  font: bold 16px 'Trebuchet MS';
+  padding: 6px 10px;
+  margin: 5px;
+  cursor: pointer;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+}
+
+/* Create two unequal columns that floats next to each other */
+.column {
+    float: left;
+    padding: 10px;
+    margin: 0 10px;
+}
+
+.left {
+  width: 32%;
+}
+
+.right {
+  width: 62%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+table {
+  text-align: left;
+  line-height: 40px;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 2px solid #ddd;
+  width: 500px;
+  margin: 50px auto;
+  border-radius: .25rem;
+}
+
+thead tr:first-child {
+  background: #888;
+  color: #fff;
+  border: none;
+}
+
+th:first-child,
+td:first-child {
+  padding: 0 15px 0 20px;
+}
+
+thead tr:last-child th {
+  border-bottom: 3px solid #888;
+}
+
+tbody tr:hover {
+  background-color: #eee;
+  cursor: default;
+}
+
+tbody tr:last-child td {
+  border: none;
+}
+
+tbody td {
+  border-bottom: 1px solid #ddd;
+}
+
+td:last-child {
+  text-align: left;
+  padding-right: 10px;
+}
+
+a:hover, a:visited, a:link, a:active {
+  text-decoration: none;
+  color: #000;
+}
+td a:hover {
+  color: #999;
+  text-decoration: underline;
+}
+
+span a:hover {
+  color: #999;
+  text-decoration: underline;
+}
+
+.caption {
+  width: 100%;
+  height: 25px;
+  padding: 10px 0 0 10px;
+  color: #333;
+  font-size: 20px;
+  line-height: 25px;
+  box-sizing: border-box;
+}
+
+.caption span {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+</style>
+</head>
+<body>
+
+<div class="header">
+  <span id="title">Blockchain PO Viewer</span>
+  <div class="search-container">
+    <form id="searchForm" action="#">
+      <input type="text" placeholder="Enter PO..." id="search" name="search">
+      <button type="submit"><i class="fa fa-search"></i></button>
+    </form>
+  </div>
+</div>
+
+<div id="message"></div>
+<div id="label" style="padding:16px" class="row">
+  <div id="po" class="column left">
+    <img src="/imgs/oracle.jpg" style="width:250px"/>
+    <h2>PO:  <span id="poLbl">...</span></h2>
+    <img id="poImg" src=""/>
+    <div id="labelItems">
+    </div>
+    <input class="btn" type="button" value="Prepare Shipment" id="prepareShipment" onClick="prepareShipment()"/>
+  </div>
+  <div id="shipment" class="column right">
+    <div class="caption">Associated Shipment: <span id="shLbl"></span> to <span id="shDst"></span></div>
+    <div id="itemContainer">
+      <table id="items" style="width:100%">
+      	<thead>
+      	<tr>
+      		<th>SN</th>
+          <th>Model</th>
+          <th>Supplier</th>
+          <th>Assembly</th>
+      	</tr>
+      	</thead>
+      	<tbody id="itemRows">
+      	</tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+function prepareShipment() {
+  var po = document.getElementById("poLbl").textContent;
+  if( document.getElementById("shLbl").textContent == "" ) {
+    $( "#message" ).text("Shipment will be created ");
+    var url = "/po/"+po+"/generateShipment/";
+    $.getJSON( url, function( data ) {
+      $( "#message" ).text( "Error in processing request." );("Shipment Created.");
+    })
+    .fail(function() {
+      $( "#message" ).text( "Shipment could not be created." );
+    });
+  } else {
+    $( "#message" ).text("Shipment already exists for PO "+po);
+  }
+}
+$( "#searchForm" ).submit(function( event ) {
+  $( "#message" ).text("");
+  let key = $( "#search" ).val();
+  if( key && key.length>0 ) {
+    $( "#labelItems" ).empty();
+    $.getJSON( "/po/"+key, function( data ) {
+      if( data.PO ) {
+        let qr = "/qr/"+key;
+        document.getElementById("poImg").src=qr;
+        document.getElementById("poLbl").textContent=key;
+        var details = data.Details;
+        if( details && details.length>0 ) {
+          $( "#labelItems" ).append( "<h3>Total: "+details.length+" models</h3>" );
+          for (var i = 0, len = details.length; i < len; i++) {
+            $( "#labelItems" ).append( "<div>"+details[i].model+" ("+details[i].quantity+")</div>" );
+          }
+        }
+        $( "#label" ).show();
+      } else {
+        $( "#message" ).text("No PO found.");
+        $( "#label" ).hide();
+      }
+    })
+    .fail(function() {
+      $( "#message" ).text( "Error in processing request." );
+      $( "#label" ).hide();
+    });
+    $( "#shipment" ).hide();
+    document.getElementById("shLbl").textContent="";
+    $.getJSON( "/po/"+key+"/products", function( data2 ) {
+      if( data2 && data2.length>0 ) {
+        poShipment = data2[0].Shipment;
+        $("#shLbl").empty();
+          $("#shLbl").append("<a href='/tracking/shipment.html?search="+data2[0].Shipment+"'>"+data2[0].Shipment+"</a>");
+        $("#shDst").append("<a href='/tracking/stockByShipment.html?search="+data2[0].DestinationID+"'>"+data2[0].DestinationID+"</a>");
+        $( "#itemRows" ).empty();
+        $.each(data2,function(index,item){
+          appendItem([item.SN, item.Model, item.SupplierID, item.Assembly_Date]);
+        });
+        $( "#shipment" ).show();
+        $("#prepareShipment").hide();
+      } else {
+        $("#prepareShipment").show();
+      }
+    })
+    .fail(function() {
+      $( "#shipment" ).hide();
+    });
+  } else {
+    $( "#shipment" ).hide();
+  }
+  event.preventDefault();
+});
+function appendItem(rowData) {
+  var lastRow = $('<tr/>').appendTo("#itemRows");
+  $.each(rowData, function(colIndex, c) {
+    if( colIndex == 0 ) {
+      //lastRow.append($('<td/>').text("<a href='/tracking/sn.html?search="+c+"'>"+c+"</a>"));
+      lastRow.append($('<td/>').html("<a href='/tracking/sn.html?search="+c+"'>"+c+"</a>"));
+    } else {
+      lastRow.append($('<td/>').text(c));
+    }
+  });
+
+  return lastRow;
+}
+$( "#label" ).hide();
+$( "#shipment" ).hide();
+var urlParams = new URLSearchParams(window.location.search);
+var sid = urlParams.get('search');
+if( sid ) {
+  $("#search").val(sid);
+  $("#searchForm").trigger("submit");
+}
+</script>
+
+</body>
+</html>

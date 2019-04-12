@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <% include ../fragments/head %>
+</head>
+
+<body>
+
+<% include ../fragments/nav %>
+
+<!-- Page Content -->
+<div class="container">
+
+<% var product = txns[txns.length-1]; %>
+
+  <!-- Jumbotron Header -->
+  <header class="jumbotron my-4 bg-light">
+    <div class="row">
+      <div class="col-md-5">
+        <h4 class="display-5">Product SN: <%= product.SN %></h4>
+        <p class="lead">
+          <h6 class="display-5">Shipment: <a href="/tracker/poDetail/<%= product.Shipment %>"><%= product.Shipment %></a></h6>
+          <h6 class="display-5">PO: <a href="/tracker/poDetail/<%= product.PO %>"><%= product.PO %></a></h6>
+        </p>
+      </div>
+      <div class="col-md-7">
+        <h6 class="display-7">Model: <%= product.Model %></h6>
+        <h6 class="display-7">Ship To: <%= product.DestinationID %></h6>
+        <h6 class="display-7">Destination: <%= product.DestinationLabel %></h6>
+        <h6 class="display-7">Product Alerts: <%= product.NumAlerts %></h6>
+      </div>
+    </div>
+  </header>
+
+  <div id="message">&nbsp;</div>
+
+  <!-- Page Features -->
+
+  <div class="row text-center">
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Date</th>
+        <th scope="col">Event</th>
+        <th scope="col">Custodian</th>
+        <th scope="col">Stage</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for( var x=0; x< txns.length; x++ ) { %>
+      <tr>
+        <td><%= dateformat(new Date(txns[x].Timestamp), "d mmmm yyyy, h:MM") %></td>
+        <td><%= txns[x].Event %></td>
+        <td><%= txns[x].Custodian %></td>
+        <td><%= txns[x].Stage %></td>
+      </tr>
+      <% } %>
+    </tbody>
+  </table>
+  &nbsp;
+</div>
+<!-- /.row -->
+
+</div>
+<!-- /.container -->
+
+<% include ../fragments/footer %>
+
+<!-- Bootstrap core JavaScript -->
+<script src="/resources/jquery/jquery.min.js"></script>
+<script src="/resources/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<script type="text/javascript">
+var shipmentData = [];
+function printShipmentLabel() {
+  if( shipmentData && shipmentData.length>0 ) {
+    var shipment = shipmentData[0].Shipment;
+    $.getJSON( "/qr/"+shipment+"/printLabel", function( data ) {
+      $( "#message" ).text("Shipping label sent to printer.");
+    })
+    .fail(function() {
+      $( "#message" ).text( "Error in printing label." );
+      $( "#label" ).hide();
+    });
+  }
+}
+function printSnLabels() {
+  if( shipmentData && shipmentData.length>0 ) {
+    $.each(shipmentData,function(index,item) {
+      $.getJSON( "/qr/"+shipmentData[0].SN+"/printLabel", function( data ) {
+        $( "#message" ).text("Shipping label sent to printer.");
+      })
+      .fail(function() {
+        $( "#message" ).text( "Error in printing label." );
+        $( "#label" ).hide();
+      });
+    });
+  }
+}
+</script>
+
+</body>
+
+</html>

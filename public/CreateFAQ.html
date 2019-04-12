@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Add New FAQ</title>
+<style>
+/* Style inputs with type="text", select elements and textareas */
+input[type=text], select, textarea {
+    width: 100%; /* Full width */
+    padding: 12px; /* Some padding */
+    border: 1px solid #ccc; /* Gray border */
+    border-radius: 4px; /* Rounded borders */
+    box-sizing: border-box; /* Make sure that padding and width stays in place */
+    margin-top: 6px; /* Add a top margin */
+    margin-bottom: 16px; /* Bottom margin */
+    resize: vertical /* Allow the user to vertically resize the textarea (not horizontally) */
+}
+
+/* Style the submit button with a specific background color etc */
+input[type=submit] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* When moving the mouse over the submit button, add a darker green color */
+input[type=submit]:hover {
+    background-color: #45a049;
+}
+
+/* Add a background color and some padding around the form */
+.container {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+}
+</style>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+
+<h2>Add New FAQ</h2>
+<h3 id="result" style="color:red"></h3>
+<div class="container">
+<form id="faqform" method="post" action="/fadmin/faqs">
+    <div class="field">
+        <label for="question">Question:</label>
+        <input type="text" id="question" name="question" placeholder="Question"/>
+    </div>
+
+    <div class="field">
+        <label for="answer">Answer:</label>
+        <textarea id="answer" name="answer"  placeholder="Answer"></textarea>
+    </div>
+
+    <div class="field">
+        <label for="actions">Actions:</label>
+        <textarea id="actions" name="actions"  placeholder="Actions"></textarea>
+    </div>
+
+    <div class="field">
+        <label for="category">Category:</label>
+        <input type="text" id="category" name="category"  placeholder="Category"/>
+    </div>
+
+    <div class="field">
+        <input type="submit" value="Add FAQ" name="Add FAQ"/>
+    </div>
+</form>
+</div>
+
+<script type="text/javascript">
+$( "#faqform" ).submit(function( event ) {
+
+  event.preventDefault();
+
+  var question = $("#question").val();
+  var answer = $("#answer").val();
+  var actions = $("#actions").val();
+  var category = $("#category").val();
+  var data = {"question": question, "answer": answer, "actions": actions, "category": category };
+  $.ajax({
+      type : 'POST',
+      url : "/fadmin/faqs",
+      //Add the request header
+      headers : {
+          Authorization : 'Basic b3JhY2xlOndlbGNvbWUx'
+      },
+      contentType : 'application/json',
+      //Add form data
+      data : JSON.stringify(data),
+      success : function(response) {
+          console.log(response);
+          $("#result").text( "FAQ Added!" );
+      },
+      error : function(xhr, status, error) {
+          var err = eval("(" + xhr.responseText + ")");
+          console.log(err);
+          $("#result").text( "Error adding FAQ! ("+err+")" );
+      }
+  }); //End of Ajax
+
+});
+
+</script>
+
+</body>
+</html>
