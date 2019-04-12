@@ -66,10 +66,13 @@ router.post('/product/incident/:id', async function (req, res) {
     sn,
     req.body.message
   ]
-  console.log('TRACK::productDetail');
+  console.log('TRACK::incident');
   var txns = [];
   try {
     var response = await bcUtils.invokeBlockchain("incidentForProduct", args);
+    console.log("****");
+    console.log(response);
+    console.log("****");
     txns = JSON.parse(response);
     res.status(200).send(txns);
   } catch (error) {
