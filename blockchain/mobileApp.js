@@ -60,6 +60,24 @@ router.get('/productDetail/:id', async function (req, res) {
   //res.render('track/productDetail', { user: req.user, txns: txns, opts: getOptions(req.user.role) } )
 })
 
+router.post('/product/incident/:id', async function (req, res) {
+  var sn = req.params.id;
+  var args = [
+    sn,
+    req.body.message
+  ]
+  console.log('TRACK::productDetail');
+  var txns = [];
+  try {
+    var response = await bcUtils.invokeBlockchain("incidentForProduct", args);
+    txns = JSON.parse(response);
+    res.status(200).send(txns);
+  } catch (error) {
+    res.status(401).send("Error in incidentForProduct");
+    console.log("AssetError="+error);
+  }
+})
+
 router.post('/changeCustodian', async function (req, res) {
   try {
     //var id = bcUtils.getUUID();
