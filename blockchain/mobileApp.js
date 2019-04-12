@@ -32,10 +32,8 @@ router.get('/productDetailByShipment/:id', async function (req, res) {
   console.log('TRACK::productDetailByShipment');
   var txns = [];
   try {
-    var XXX = await bcUtils.queryBlockchain("queryProductsByShipment", [ sn ]);
-    txns = JSON.parse(XXX);
-    //res.status(200).send(JSON.stringify(txns));
-    res.status(200).send(txns);
+    var response = await bcUtils.queryBlockchain("queryProductsByShipment", [ sn ]);
+    res.status(200).json(response);
   } catch (error) {
     res.status(401).send("Error in queryProductsByShipment");
     console.log("AssetError="+error);
@@ -49,10 +47,8 @@ router.get('/productDetail/:id', async function (req, res) {
   var txns = [];
   try {
     //txns = await bcUtils.queryBlockchain("getHistoryForProduct", [ sn ]);
-    var XXX = await bcUtils.queryBlockchain("getHistoryForProduct", [ sn ]);
-    txns = JSON.parse(XXX);
-    //res.status(200).send(JSON.stringify(txns));
-    res.status(200).send(txns);
+    var response = await bcUtils.queryBlockchain("getHistoryForProduct", [ sn ]);
+    res.status(200).json(response);
   } catch (error) {
     res.status(401).send("Error in getHistoryForProduct");
     console.log("AssetError="+error);
@@ -88,16 +84,12 @@ router.post('/changeCustodian', async function (req, res) {
       req.body.role
     ]
     //var ret = await bcUtils.invokeBlockchain("createPO", args);
-    var XXX = await bcUtils.invokeBlockchain("takeCustodyOfProduct", args);
-    var ret = JSON.parse(XXX);
-console.log("*****************************123******************************");
-console.log(ret);
-console.log("*****************************456******************************");
+    var response = await bcUtils.invokeBlockchain("takeCustodyOfProduct", args);
+    res.status(200).send('Custodian changed for sn: '+req.body.sn+" to be custodied by: "+req.body.custodianID+".")
   } catch (error) {
     console.log("TRACK::AssetError="+error);
     res.status(500).send(error);
   }
-  res.status(200).send('Custodian changed for sn: '+req.body.sn+" to be custodied by: "+req.body.custodianID+".")
 })
 
 module.exports = router
