@@ -70,7 +70,7 @@ router.post('/product/incident/:id', async function (req, res) {
   var txns = [];
   try {
     var response = await bcUtils.invokeBlockchain("incidentForProduct", args);
-    res.status(200).send(response);
+    res.status(200).send(JSON.stringify(response));
   } catch (error) {
     res.status(401).send("Error in incidentForProduct");
     console.log("AssetError="+error);
