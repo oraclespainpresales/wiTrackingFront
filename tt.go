@@ -100,9 +100,6 @@ func (s *SmartContract) Invoke(stub shim.ChaincodeStubInterface) sc.Response {
 	} else if function == "eventForProduct" {
 		return s.eventForProduct(stub, args)
 
-		} else if function == "incidentForProduct" {
-			return s.incidentForProduct(stub, args)
-
 	} else if function == "rejectShipment" {
 		return s.rejectShipment(stub, args)
 
@@ -556,17 +553,6 @@ func (s *SmartContract) eventForProduct(stub shim.ChaincodeStubInterface, args [
 }
 
 
-func (s *SmartContract) incidentForProduct(stub shim.ChaincodeStubInterface, args []string) sc.Response {
-	if len(args) != 2 {	return shim.Error("Incorrect number of arguments. Expecting 2: <sn> <eventText>") }
-	sn := args[0]
-	eventText := args[1]
-
-	response := s.createIncidentEvent(stub, sn, eventText)
-	if response.Status != shim.OK { return shim.Error("Event creation failed: " + response.Message) }
-	return shim.Success(nil)
-}
-
-
 func (s *SmartContract) createProductEventsForCollection(stub shim.ChaincodeStubInterface, collectionType string, collectionID string, event string, isAlert bool) sc.Response {
 	var keyName string
 	if( collectionType == "transport" ) {
@@ -602,8 +588,8 @@ func (s *SmartContract) createProductEvent(stub shim.ChaincodeStubInterface, sn 
 	productAsset := Product{}
 	json.Unmarshal(productAssetAsBytes, &productAsset)
 	productAsset.Event = event
-	productAsset.Stage = "SHIPPING_INCIDENT"
 	if isAlert {
+		productAsset.Stage = "SHIPPING_INCIDENT"
 		productAsset.NumAlerts += 1
 	}
 	productAssetAsBytes, _ = json.Marshal(productAsset)
@@ -611,21 +597,6 @@ func (s *SmartContract) createProductEvent(stub shim.ChaincodeStubInterface, sn 
 	if err != nil { return shim.Error(fmt.Sprintf("Failed to update Product: %s", sn)) }
 	return shim.Success(nil)
 }
-
-
-func (s *SmartContract) createIncidentEvent(stub shim.ChaincodeStubInterface, sn string, event string) sc.Response {
-	productAssetAsBytes, _ := stub.GetState(sn)
-	if productAssetAsBytes == nil { return shim.Error("Could not locate Product Asset") }
-	productAsset := Product{}
-	json.Unmarshal(productAssetAsBytes, &productAsset)
-	productAsset.Event = event
-	productAsset.Stage = "SHIPPING_INCIDENT"
-	productAssetAsBytes, _ = json.Marshal(productAsset)
-	err := stub.PutState(sn, productAssetAsBytes)
-	if err != nil { return shim.Error(fmt.Sprintf("Failed to update Product: %s", sn)) }
-	return shim.Success(nil)
-}
-
 
 
 
