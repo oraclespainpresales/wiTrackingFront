@@ -48,7 +48,7 @@ router.get('/productDetail/:id', async function (req, res) {
   try {
     //txns = await bcUtils.queryBlockchain("getHistoryForProduct", [ sn ]);
     var response = await bcUtils.queryBlockchain("getHistoryForProduct", [ sn ]);
-    res.status(200).json(response);
+    res.status(200).json(JSON.parse(response));
   } catch (error) {
     res.status(401).send("Error in getHistoryForProduct");
     console.log("AssetError="+error);
