@@ -22,7 +22,8 @@ router.route('/:id/latestShipment').get(async function (req, res) {
   try {
     var products = await bcUtils.queryBlockchain("queryProductsByTransport", [ req.params.id ]);
     console.log(products);
-    orderedProducts = _.orderBy(products, ['Assembly_Date'], ['desc']);
+    orderedProducts = _.orderBy(JSON.parse(products), ['Assembly_Date'], ['desc']);
+    console.log(orderedProducts);
 /**
     var ts;
     for(i = 0; i < products.length; i++) {
