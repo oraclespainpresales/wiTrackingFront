@@ -52,6 +52,7 @@ router.route('/invocation').post(async function (req, res) {
   var asset = {};
   try {
     var payload = req.body;
+    console.log(JSON.stringify(payload));
     var args = bcUtils.replaceVariables(payload.args);
 
     asset = await bcUtils.invokeBlockchainRaw(payload.method, args);

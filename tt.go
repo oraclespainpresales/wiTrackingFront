@@ -603,6 +603,7 @@ func (s *SmartContract) createProductEvent(stub shim.ChaincodeStubInterface, sn 
 	json.Unmarshal(productAssetAsBytes, &productAsset)
 	productAsset.Event = event
 	if isAlert {
+		productAsset.Stage = "SHIPPING_INCIDENT"
 		productAsset.NumAlerts += 1
 	}
 	productAssetAsBytes, _ = json.Marshal(productAsset)
