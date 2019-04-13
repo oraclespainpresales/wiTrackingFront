@@ -1,6 +1,7 @@
 ﻿var express = require('express');
 var router = express.Router();
 var bcUtils = require('./BCUtils').Utils;
+var _ = require('lodash');
 var Promise = require("Promise");
 
 
@@ -15,10 +16,13 @@ router.route('/:id').get(async function (req, res) {
 });
 
 router.route('/:id/latestShipment').get(async function (req, res) {
-  var shipmentProducts = [];
+//  var shipmentProducts = [];
+  var orderedProducts = [];
   var shipment;
   try {
     var products = await bcUtils.queryBlockchain("queryProductsByTransport", [ req.params.id ]);
+    orderedProducts = _.orderBy(products, ['Assembly_Date'], ['desc']);
+/**
     var ts;
     for(i = 0; i < products.length; i++) {
       if( products[i].Assembly_Date ) {
@@ -37,11 +41,12 @@ router.route('/:id/latestShipment').get(async function (req, res) {
         }
       };
     }
-
+**/
   } catch (error) {
     console.log("AssetError="+error);
   }
-  res.status("200").type('application/json').send(shipmentProducts);
+//  res.status("200").type('application/json').send(shipmentProducts);
+  res.status("200").type('application/json').send(orderedProducts);
 });
 
 router.route('/:id/alert')
