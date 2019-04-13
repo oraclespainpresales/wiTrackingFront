@@ -16,14 +16,14 @@ router.route('/:id').get(async function (req, res) {
 });
 
 router.route('/:id/latestShipment').get(async function (req, res) {
-//  var shipmentProducts = [];
-  var orderedProducts = [];
+  var shipmentProducts = [];
   var shipment;
   try {
     var products = await bcUtils.queryBlockchain("queryProductsByTransport", [ req.params.id ]);
-    console.log(products);
-    orderedProducts = _.orderBy(JSON.parse(products), ['Assembly_Date'], ['desc']);
-    console.log(orderedProducts);
+    var orderedProducts = _.orderBy(JSON.parse(products), ['Assembly_Date'], ['desc']);
+    if (orderedProducts.length > 0) {
+      shipmentProducts.push(orderedProducts[0]);
+    }
 /**
     var ts;
     for(i = 0; i < products.length; i++) {
@@ -48,7 +48,7 @@ router.route('/:id/latestShipment').get(async function (req, res) {
     console.log("AssetError="+error);
   }
 //  res.status("200").type('application/json').send(shipmentProducts);
-  res.status("200").type('application/json').send(orderedProducts);
+  res.status("200").type('application/json').send(shipmentProducts);
 });
 
 router.route('/:id/alert')
