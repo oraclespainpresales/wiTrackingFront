@@ -94,6 +94,9 @@ func (s *SmartContract) Invoke(stub shim.ChaincodeStubInterface) sc.Response {
 	} else if function == "eventForShipment" {
 		return s.eventForShipment(stub, args)
 
+	} else if function == "enterShipmentReview" {
+		return s.enterShipmentReview(stub, args)
+
 	} else if function == "alertForProduct" {
 		return s.alertForProduct(stub, args)
 
@@ -342,6 +345,33 @@ func (s *SmartContract) takeCustodyOfShipment(stub shim.ChaincodeStubInterface, 
 		sn := keyComposite[1]
 
 		response := s.updateProductCustody(stub, sn, custodianID, transportID, stage, event)
+		if response.Status != shim.OK { return shim.Error("TakeCustodyOfShipment failed: " + response.Message) }
+	}
+	return shim.Success(nil)
+}
+
+
+func (s *SmartContract) enterShipmentReview(stub shim.ChaincodeStubInterface, args []string) sc.Response {
+	if len(args) != 3 { return shim.Error("Incorrect number of arguments.  Expecting 3: <shipment> <custodian> <event>") }
+	shipment := args[0]
+	custodianID := args[1]
+	stage := "LOGISTICS_REVIEWED"
+	event := args[2]
+
+	productIterator, err := stub.GetStateByPartialCompositeKey("Shipment~Product", []string{shipment})
+	if err != nil { return shim.Error(err.Error()) }
+	defer productIterator.Close()
+
+	for productIterator.HasNext() {
+		item, err := productIterator.Next()
+		if err != nil { return shim.Error(err.Error()) }
+
+		objectType, keyComposite, err := stub.SplitCompositeKey(item.Key)
+		if err != nil { return shim.Error(err.Error() +"for objType = "+ objectType) }
+
+		sn := keyComposite[1]
+
+		response := s.updateProductCustody(stub, sn, custodianID, "", stage, event)
 		if response.Status != shim.OK { return shim.Error("TakeCustodyOfShipment failed: " + response.Message) }
 	}
 	return shim.Success(nil)
