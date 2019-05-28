@@ -45,9 +45,8 @@ router.route('/:id/review')
   var ret = "{}";
   try {
     var shipment = req.params.id;
-    var cutodian = req.body.custodian;
+    var custodian = req.body.custodian;
     var msg = req.body.message;
-    console.log(JSON.stringify([ shipment, custodian, msg ]));
     ret = await bcUtils.invokeBlockchain("enterShipmentReview", [ shipment, custodian, msg ] );
   } catch (error) {
     console.log("AssetError="+error);
