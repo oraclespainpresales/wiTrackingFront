@@ -46,7 +46,10 @@ router.route('/:id/review')
   try {
     var shipment = req.params.id;
     var custodian = req.body.custodian;
-    var msg = req.body.message;
+    var supplierAcceptance = (req.body.supplierAcceptance == true) ? 'yes' : 'no';
+    var damagedPackage     = (req.body.damagedPackage == true) ? 'yes' : 'no';
+    var papersInOrder      = (req.body.papersInOrder == true) ? 'yes' : 'no';
+    var msg = custodian + " (LOGISTICS) has submitted the shipment review as follows: Supplier acceptance: '" + supplierAcceptance + "'; Damaged package: '" + damagedPackage + "'; All papers in order: '" + papersInOrder + "'";
     ret = await bcUtils.invokeBlockchain("enterShipmentReview", [ shipment, custodian, msg ] );
   } catch (error) {
     console.log("AssetError="+error);

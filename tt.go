@@ -356,7 +356,7 @@ func (s *SmartContract) enterShipmentReview(stub shim.ChaincodeStubInterface, ar
 	shipment := args[0]
 	custodianID := args[1]
 	stage := "LOGISTICS_REVIEWED"
-	event := args[2]
+	event := custodianID + " (LOGISTICS) has submitted the shipment review as follows: " + args[2]
 
 	productIterator, err := stub.GetStateByPartialCompositeKey("Shipment~Product", []string{shipment})
 	if err != nil { return shim.Error(err.Error()) }
