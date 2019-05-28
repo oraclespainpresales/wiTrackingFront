@@ -42,6 +42,7 @@ router.route('/:id/event')
 
 router.route('/:id/review')
     .post(async function (req, res) {
+  console.log("******* YES *******");
   var ret = "{}";
   try {
     var shipment = req.params.id;
