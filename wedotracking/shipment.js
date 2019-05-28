@@ -43,6 +43,8 @@ router.route('/:id/event')
 router.route('/:id/review')
     .post(async function (req, res) {
   var ret = "{}";
+  console.log("Body:");
+  console.log(req.body);
   try {
     var shipment = req.params.id;
     var cutodian = req.body.custodian;
