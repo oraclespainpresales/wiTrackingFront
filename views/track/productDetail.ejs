@@ -56,7 +56,7 @@
         <td><% if (txns[x].Event.includes("#PICTURE#")) { %>
           <% var event = txns[x].Event.split("#PICTURE#")[0] %>
           <% var url = txns[x].Event.split("#PICTURE#")[1] %>
-          <%= event %><a href="#" onClick="ProofOfShipment=window.open('<%= url %>','Proof of Shipment',width=600,height=300); return false;">Proof of Shipment</a>
+          <%= event %><br><a href="#" onClick="ProofOfShipment=window.open('<%= url %>','Proof of Shipment',width=600,height=300); return false;">Proof of Shipment</a>
         <% } else { %>
           <%= txns[x].Event %>
         <%}%></td>
