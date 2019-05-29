@@ -44,13 +44,15 @@ router.route('/:id/review')
     .post(async function (req, res) {
   var ret = "{}";
   try {
+    var PICTUREURL = 'https://infra.wedoteam.io/industry_logistics/files/{SHIPMENT}.jpg';
     var shipment = req.params.id;
     var custodian = req.body.custodian;
     var supplierAcceptance = (req.body.supplierAcceptance == true) ? 'yes' : 'no';
     var damagedPackage     = (req.body.damagedPackage == true) ? 'yes' : 'no';
     var papersInOrder      = (req.body.papersInOrder == true) ? 'yes' : 'no';
+    var picture            = (req.body.pictureAvailable == true) ? PICTUREURL.replace('{SHIPMENT}', shipment) : '';
     var msg = custodian + " (LOGISTICS) has submitted the shipment review as follows: Supplier acceptance: '" + supplierAcceptance + "'; Damaged package: '" + damagedPackage + "'; All papers in order: '" + papersInOrder + "'";
-    ret = await bcUtils.invokeBlockchain("enterShipmentReview", [ shipment, custodian, msg ] );
+    ret = await bcUtils.invokeBlockchain("enterShipmentReview", [ shipment, custodian, msg, picture ] );
   } catch (error) {
     console.log("AssetError="+error);
   }

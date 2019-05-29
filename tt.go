@@ -352,11 +352,15 @@ func (s *SmartContract) takeCustodyOfShipment(stub shim.ChaincodeStubInterface, 
 
 
 func (s *SmartContract) enterShipmentReview(stub shim.ChaincodeStubInterface, args []string) sc.Response {
-	if len(args) != 3 { return shim.Error("Incorrect number of arguments.  Expecting 3: <shipment> <custodian> <event>") }
+	if len(args) != 4 { return shim.Error("Incorrect number of arguments.  Expecting 3: <shipment> <custodian> <event> <picture>") }
 	shipment := args[0]
 	custodianID := args[1]
 	stage := "LOGISTICS_REVIEWED"
 	event := args[2]
+	picture := args[3];
+	if picture != "" {
+		event := event + ". " + "<a href=\"" + picture + "\">Picture taken</a>"
+	}
 
 	productIterator, err := stub.GetStateByPartialCompositeKey("Shipment~Product", []string{shipment})
 	if err != nil { return shim.Error(err.Error()) }
