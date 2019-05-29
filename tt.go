@@ -359,7 +359,7 @@ func (s *SmartContract) enterShipmentReview(stub shim.ChaincodeStubInterface, ar
 	event := args[2]
 	picture := args[3];
 	if (picture != "") {
-		event = args[2] + ". " + "<a href=\"" + picture + "\">Picture taken</a>"
+		event = args[2] + "#PICTURE#" + picture
 	}
 
 	productIterator, err := stub.GetStateByPartialCompositeKey("Shipment~Product", []string{shipment})
