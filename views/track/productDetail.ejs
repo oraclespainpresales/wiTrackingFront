@@ -54,7 +54,7 @@
 <!--        <td><%= dateformat(new Date(txns[x].Timestamp), "d mmmm yyyy, h:MM") %></td>-->
         <td><%= (new Date(txns[x].Timestamp)).toLocaleString() %></td>
         <td><% if (txns[x].Event.includes("<a")) { %>
-          CON LINK!! <a href="pp">pp</a>
+          CON LINK!! <a href="#" onClick="MyWindow=window.open('https://infra.wedoteam.io/industry_logistics/files/GX6JU9MUCO7.jpgm','Proof of Shipment',width=600,height=300); return false;">Picture Taken</a>
         <% } else { %>
           <%= txns[x].Event %>
         <%}%></td>
