@@ -57,7 +57,6 @@
           <% var event = txns[x].Event.split("#PICTURE#")[0] %>
           <% var url = txns[x].Event.split("#PICTURE#")[1] %>
           <%= event %><a href="#" onClick="ProofOfShipment=window.open('<%= url %>','Proof of Shipment',width=600,height=300); return false;">Proof of Shipment</a>
-          <%= a %>
         <% } else { %>
           <%= txns[x].Event %>
         <%}%></td>
