@@ -54,9 +54,9 @@
 <!--        <td><%= dateformat(new Date(txns[x].Timestamp), "d mmmm yyyy, h:MM") %></td>-->
         <td><%= (new Date(txns[x].Timestamp)).toLocaleString() %></td>
         <td><% if (txns[x].Event.includes("<a>")) { %>
-          pepe
+          <%= txns[x].Event %>
         <% } else { %>
-          kaka
+          <%= txns[x].Event %>
         <%}%></td>
         <td><%= txns[x].Custodian %></td>
         <td><%= txns[x].Stage %></td>
