@@ -54,7 +54,7 @@
 <!--        <td><%= dateformat(new Date(txns[x].Timestamp), "d mmmm yyyy, h:MM") %></td>-->
         <td><%= (new Date(txns[x].Timestamp)).toLocaleString() %></td>
         <td><% if (txns[x].Event.includes("<a")) { %>
-          CON LINK!!
+          CON LINK!! <a href="pp">pp</a>
         <% } else { %>
           <%= txns[x].Event %>
         <%}%></td>
