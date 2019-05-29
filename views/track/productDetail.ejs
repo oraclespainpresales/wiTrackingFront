@@ -53,7 +53,7 @@
       <tr>
 <!--        <td><%= dateformat(new Date(txns[x].Timestamp), "d mmmm yyyy, h:MM") %></td>-->
         <td><%= (new Date(txns[x].Timestamp)).toLocaleString() %></td>
-        <td><% if (txns[x].Event.contains("<a>")) { %>
+        <td><% if (txns[x].Event.includes("<a>")) { %>
           pepe
         <% } else { %>
           kaka
