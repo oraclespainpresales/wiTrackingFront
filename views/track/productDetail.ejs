@@ -51,7 +51,8 @@
     <tbody>
       <% for( var x=0; x< txns.length; x++ ) { %>
       <tr>
-        <td><%= dateformat(new Date(txns[x].Timestamp), "d mmmm yyyy, h:MM") %></td>
+<!--        <td><%= dateformat(new Date(txns[x].Timestamp), "d mmmm yyyy, h:MM") %></td>-->
+        <td><%= (new Date(txns[x].Timestamp)).toLocaleString() %></td>
         <td><%= txns[x].Event %></td>
         <td><%= txns[x].Custodian %></td>
         <td><%= txns[x].Stage %></td>
