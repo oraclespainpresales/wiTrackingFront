@@ -59,9 +59,12 @@ app.get('/login', (req, res) => res.sendFile('auth.html', { root : __dirname}));
 app.use('/doLogin',
   passport.authenticate('local', { failureRedirect: '/login' }),
   function(req, res) {
-    var url = req.session.loginOriginalUrl;
-    if( !url || url.startsWith("/tracker/") ) {
-      url = "/tracker/index";
+    var url = "/tracker/index";
+    if (req.session) {
+      url = req.session.loginOriginalUrl;
+      if( !url || url.startsWith("/tracker/") ) {
+        url = "/tracker/index";
+      }
     }
     res.redirect(url);
 });
