@@ -19,7 +19,7 @@ exports.Utils = (function () {
 
     //Clean Shipment Data
     var shipment = bcUtils.unescapeJSON(poData.Shipment);
-    console.log("CleanPO::shipment.len="+shipment.length );
+//    console.log("CleanPO::shipment.len="+shipment.length );
     if( shipment.length<=2 ) {
       shipment = {"shipment":"","products":[] }
     } else {

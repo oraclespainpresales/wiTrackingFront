@@ -31,14 +31,14 @@ app.get('/success', (req, res) => res.send("Welcome "+req.query.username+"!!"));
 app.get('/error', (req, res) => res.send("error logging in"));
 
 passport.serializeUser(function(user, cb) {
-  //console.log("APP::serializeUser::user="+JSON.stringify(user));
-  cb(null, user.username);
+//  console.log("APP::serializeUser::user="+JSON.stringify(user));
+  cb(null, user.username + "," + user.REALDEMOZONE);
 });
 
 passport.deserializeUser(function(id, cb) {
-  //console.log("APP::deserializeUser::id="+id);
+//  console.log("APP::deserializeUser::id="+id);
   var user = userUtils.getUser(id);
-  //console.log("APP::deserializeUser::user="+JSON.stringify(user));
+//  console.log("APP::deserializeUser::user="+JSON.stringify(user));
   return cb(null, user);
 });
 
@@ -56,9 +56,11 @@ passport.use(new LocalStrategy(
 ));
 
 app.get('/login', (req, res) => res.sendFile('auth.html', { root : __dirname}));
-app.use('/doLogin',
-  passport.authenticate('local', { failureRedirect: '/login' }),
-  function(req, res) {
+
+app.get('/doLoginx', (req, res, next) => {
+  passport.authenticate('local', (err, user, info) => {
+    if (err) { return next(err); }
+    if (!user) { return res.redirect('/login'); }
     var url = "/tracker/index";
     if (req.session) {
       url = req.session.loginOriginalUrl;
@@ -67,7 +69,24 @@ app.use('/doLogin',
       }
     }
     res.redirect(url);
+
+  })(req, res, next);
 });
+
+app.use('/doLogin',
+  passport.authenticate('local', { failureRedirect: '/login' }),
+  function(req, res) {
+    var url = "/tracker/index";
+    console.log(req.query.demozone);
+    if (req.session) {
+      url = req.session.loginOriginalUrl;
+      if( !url || url.startsWith("/tracker/") ) {
+        url = "/tracker/index";
+      }
+    }
+    res.redirect(url);
+});
+
 app.get('/logout', function (req, res){
   req.logout();
   res.redirect('/login');

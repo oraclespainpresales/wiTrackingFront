@@ -17,7 +17,7 @@ router.get('/customer', async function (req, res) {
     var XXX = await bcUtils.queryBlockchain("queryPOByBuyer", [ req.user.username ]);
     var items = JSON.parse(XXX);
     for( i in items ) {
-      console.log( "GET::item="+JSON.stringify(items[i]));
+//      console.log( "GET::item="+JSON.stringify(items[i]));
       poAsset = poUtils.cleanPO(items[i]);
       poAssets.push(poAsset);
     }
@@ -36,7 +36,7 @@ router.get('/poBuyer', async function (req, res) {
     // JVP: Volvemos a hacer JSON.parse de lo que devuelve BCUtils.js::queryPOByBuyer, porque nos viene reconvertido a String
     var items = JSON.parse(XXX);
     for( i in items ) {
-      console.log( "GET::item="+JSON.stringify(items[i]));
+//      console.log( "GET::item="+JSON.stringify(items[i]));
       poAsset = poUtils.cleanPO(items[i]);
       //poAsset.PODate = bcUtils.getNOW();
       //poAsset.EstDeliveryDate = bcUtils.getNOW();
@@ -58,7 +58,7 @@ router.get('/poSupplier', async function (req, res) {
     var XXX = await bcUtils.queryBlockchain("queryPOBySupplier", [ req.user.username, "open" ]);
     var items = JSON.parse(XXX);
     for( i in items ) {
-      console.log( "GET::item="+JSON.stringify(items[i]));
+//      console.log( "GET::item="+JSON.stringify(items[i]));
       poAsset = poUtils.cleanPO(items[i]);
       //poAsset.PODate = bcUtils.getNOW();
       //poAsset.EstDeliveryDate = bcUtils.getNOW();

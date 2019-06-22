@@ -34,7 +34,9 @@ exports.Utils = (function () {
   }
 
   function getUser(username) {
-    return cats.getSync(PREFIX+username);
+    var u = cats.getSync(PREFIX+username.split(',')[0]);
+    u.REALDEMOZONE = username.split(',')[1];
+    return u;
   }
 
   function saveUser(user) {

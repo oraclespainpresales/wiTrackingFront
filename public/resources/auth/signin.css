@@ -1,3 +1,4 @@
+
 body {
   padding-top: 40px;
   padding-bottom: 40px;
@@ -5,7 +6,7 @@ body {
 }
 
 .form-signin {
-  max-width: 330px;
+  max-width: 450px;
   padding: 15px;
   margin: 0 auto;
 }
@@ -25,6 +26,26 @@ body {
   padding: 10px;
   font-size: 16px;
 }
+
+.form-signin .dropdown {
+    position: relative;
+    border-radius: 2px;
+    border: 2px solid rgba(46, 46, 46, 0.4);
+    box-sizing: border-box;
+    font-family: inherit;
+    font-size: 16px;
+    height: 40px;
+    margin: 4px 0;
+    padding: 0 27px 0 10px;
+    user-select: none;
+    cursor: pointer;
+    text-overflow: ellipsis;
+    outline: none;
+    background: white;
+    appearance: none;
+}
+
+
 .form-signin .form-control:focus {
   z-index: 2;
 }

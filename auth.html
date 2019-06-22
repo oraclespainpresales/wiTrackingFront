@@ -9,7 +9,34 @@
     <meta name="author" content="">
     <link rel="icon" href="https://getbootstrap.com/docs/3.3/favicon.ico">
 
-    <title>Signin Template for Bootstrap</title>
+    <title>Signin into WEDO Tracking</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+    <script>
+    $(document).ready(function() {
+      $.ajax({
+        url: "https://apex.wedoteam.io/ords/pdb1/wedoindustry/demozone/zone"
+      }).then(function(data) {
+          let options = [];
+          data.items.forEach( demozone => {
+            options.push({text: demozone.name, value: demozone.id});
+          });
+          console.log(options);
+          let optionList = document.getElementById('demozone').options;
+          options.forEach(option =>
+            optionList.add(
+              new Option(option.text, option.value, false)
+            )
+          );
+          var previous = JSON.parse(localStorage['WEDOTRACKINGDEMOZONE']);
+          if (previous.value) {
+            document.getElementById('demozone').value = previous.value;
+          }
+          $('#logon').html('Sign in to <i><b>' + $( '#demozone option:selected' ).text() + '</b></i>');
+        })
+      });
+    </script>
 
     <!-- Bootstrap core CSS -->
     <link href="/resources/auth/bootstrap.min.css" rel="stylesheet">
@@ -31,14 +58,20 @@
     <![endif]-->
   </head>
 
-  <body>
-
+  <body onLoad="">
     <div class="container">
-
-      <form class="form-signin" action="/doLogin" method="get">
-        <h2 class="form-signin-heading">Please sign in</h2>
+      <form class="form-signin" action="/doLogin" onSubmit="localStorage.setItem('WEDOTRACKINGDEMOZONE', JSON.stringify({value: demozone.value}))" method="get" onInput="username.value = username_.value + ',' + demozone.value">
+        <div style="text-align: center;">
+          <h2 class="form-signin-heading">Please sign in</h2>
+        </div>
+        <div class="form-control" style="text-align: center;">
+          Select your demozone:
+          <select class="dropdown" id="demozone" name="demozone" onChange="$('#logon').html('Sign in to <i><b>' + $( '#demozone option:selected' ).text() + '</b></i>')">
+          </select>
+        </div>
         <label for="username" class="sr-only">Email address</label>
-        <input type="text" id="username" name="username" class="form-control" placeholder="Username" required="" autofocus="">
+        <input type="hidden" id="username" name="username">
+        <input type="text" id="username_" name="username_" class="form-control" placeholder="Username" required="" autofocus="">
         <label for="password" class="sr-only">Password</label>
         <input type="password" id="password" name="password" class="form-control" placeholder="Password" required="">
         <div class="checkbox">
@@ -46,7 +79,7 @@
             <input type="checkbox" value="remember-me"> Remember me
           </label>
         </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <button class="btn btn-lg btn-primary btn-block" id="logon" name="logon" type="submit">Sign in</button>
       </form>
 
     </div> <!-- /container -->
